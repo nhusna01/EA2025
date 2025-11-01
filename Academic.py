@@ -293,8 +293,6 @@ elif st.session_state.page == "Visualization 3":
     # ----------------- 3.3 Radar Chart: Accident Severity by Collision Type -----------------
     st.subheader("3.3 Radar Chart: Environmental Factors by Weather")
 
-st.title("3.3 Radar Chart: Environmental Factors by Weather")
-
 # ---- Check required columns exist ----
 required_cols = ['Weather', 'Roadway_Type', 'Roadway_Surface', 'Lighting']
 if all(col in df.columns for col in required_cols):
