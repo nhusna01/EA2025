@@ -29,16 +29,12 @@ if st.session_state.page == "Menu":
     st.dataframe(df)
     
     st.title("Av Accident Data")
-    col1, col2, col3, col4 = st.columns(4)
-    col1.metric("Total Accidents", total_accidents)
-    col2.metric("Total Fatalities", total_fatalities)
-    col3.metric("Average Vehicles Involved", f"{avg_vehicles:.2f}" if isinstance(avg_vehicles, float) else avg_vehicles)
-    col4.metric("Average Speed Limit", f"{avg_speed:.2f}" if isinstance(avg_speed, float) else avg_speed)
+   col1.metric(label="PLO 2", value=f"3.3", help="PLO 2: Cognitive Skill", border=True)
+   col2.metric(label="PLO 3", value=f"3.5", help="PLO 3: Digital Skill", border=True)
+   col3.metric(label="PLO 4", value=f"4.0", help="PLO 4: Interpersonal Skill", border=True)
+   col4.metric(label="PLO 5", value=f"4.3", help="PLO 5: Communication Skill", border=True)
 
-    # Display severity count as a table
-    if severity_count is not None:
-        st.write("Accidents by Severity:")
-        st.dataframe(severity_count)
+
         
     st.write("Select a visualization page below:")
 
@@ -55,13 +51,64 @@ if st.session_state.page == "Menu":
             go_to("Visualization 3")
 
 # ---- Visualization 1 (unchanged) ----
+# ---- Visualization 1 (with Plotly Box Plot) ----
 elif st.session_state.page == "Visualization 1":
-    st.title("Visualization 1")
-    st.write("Example content for Visualization 1")
+    st.title("Visualization 1: Pre-crash Speed vs Severity")
+    st.write("Example content for Visualization 1:")
     visualization1 = ["Mathematics", "Physics", "Computer Science"]
     for course in visualization1:
         st.write("- " + course)
 
+    # --- Plotly Box Plot ---
+    import plotly.express as px
+
+    # Use the processed DataFrame; fallback to df if df_processed_imputed not defined
+    try:
+        df_plot = df_processed_imputed
+    except NameError:
+        df_plot = df  # fallback
+
+    if 'Severity' in df_plot.columns and 'SV Precrash Speed (MPH)' in df_plot.columns:
+        fig = px.box(
+            df_plot,
+            x='Severity',
+            y='SV Precrash Speed (MPH)',
+            title='Pre-crash Speed vs. Severity',
+            color='Severity',
+            color_discrete_sequence=[
+                '#FF0000',  # Red
+                '#FF7F00',  # Orange
+                '#FFD700',  # Bold Yellow
+                '#32CD32',  # Bold Green
+                '#00FFFF',  # Cyan
+                '#0000FF',  # Blue
+                '#FF00FF'   # Magenta
+            ]
+        )
+
+        # Styling the box plot
+        fig.update_traces(marker=dict(line=dict(width=1, color='black')), opacity=1)
+        fig.update_layout(title_font=dict(size=20, color='black', family="Arial Black"), plot_bgcolor='white')
+
+        # Display the plot
+        st.plotly_chart(fig, use_container_width=True)
+
+        # Interpretation
+        st.markdown(
+            """
+            <div style='font-size:16px; color:black;'>
+            <b>Interpretation:</b><br>
+            The box plot shows that higher pre-crash speeds are strongly associated with greater accident severity.
+            The bold yellow (<span style='color:#FFD700;'>#FFD700</span>) and green (<span style='color:#32CD32;'>#32CD32</span>)
+            fills make moderate-to-severe levels stand out, while the vivid color palette ensures clear distinction among severity categories.
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+    else:
+        st.warning("Columns 'Severity' or 'SV Precrash Speed (MPH)' not found in the dataset.")
+
+    # --- Back to Menu Button ---
     if st.button("⬅ Back to Menu"):
         go_to("Menu")
 
