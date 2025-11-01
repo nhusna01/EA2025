@@ -139,12 +139,12 @@ elif st.session_state.page == "Visualization 1":
     if st.button("⬅ Back to Menu"):
         go_to("Menu")
 
+
+
+
 # ---- Visualization 2 ----
 elif st.session_state.page == "Visualization 2":
     st.title("Visualization 2: AV Accident Distribution")
-
-
-
 
 
 # ----------------- 2.1 Box Plot: Pre-crash Speed vs Severity -----------------
@@ -243,5 +243,4 @@ elif st.session_state.page == "Visualization 3":
 
     if st.button("⬅ Back to Menu"):
         go_to("Menu"), correct the error exist at all line
-You said:
-no those three graphs are in visualisation 1 which indicate as 1.1, 1.2, 1.3
+
