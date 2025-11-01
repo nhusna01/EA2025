@@ -4,6 +4,13 @@ import pandas as pd
 # --- CSV File Path (from GitHub Raw Link) ---
 csv_url = "https://raw.githubusercontent.com/nhusna01/EC2025/refs/heads/main/processed_av_accident_data.csv"
 
+# ---- Load dataset ----
+@st.cache_data
+def load_data(url):
+    return pd.read_csv(url)
+
+df = load_data(csv_url)
+
 # ---- Initialize session_state ----
 if "page" not in st.session_state:
     st.session_state.page = "Menu"
