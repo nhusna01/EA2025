@@ -27,10 +27,8 @@ if st.session_state.page == "Menu":
     # --- Display dataset in Menu page ---
     st.write("Dataset preview:")
     st.dataframe(df)
-    st.write("Select a visualization page below:")
-
-
-# Display metrics
+    
+    st.title("Av Accident Data")
     col1, col2, col3, col4 = st.columns(4)
     col1.metric("Total Accidents", total_accidents)
     col2.metric("Total Fatalities", total_fatalities)
@@ -42,6 +40,8 @@ if st.session_state.page == "Menu":
         st.write("Accidents by Severity:")
         st.dataframe(severity_count)
         
+    st.write("Select a visualization page below:")
+
     # --- Navigation Buttons ---
     col1, col2, col3 = st.columns(3)
     with col1:
