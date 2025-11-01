@@ -7,6 +7,66 @@ csv_url = "https://raw.githubusercontent.com/nhusna01/EC2025/refs/heads/main/pro
 # Set the title for the Streamlit app
 st.title("AV Accident Data Survey")
 
+import streamlit as st
+
+# Initialize session_state to store current page
+if "page" not in st.session_state:
+    st.session_state.page = "Home"
+
+# Function to change pages
+def go_to(page_name):
+    st.session_state.page = page_name
+
+# ---- Navigation Buttons ----
+col1, col2, col3, col4 = st.columns(4)
+
+with col1:
+    if st.button("Home"):
+        go_to("Home")
+with col2:
+    if st.button("Visualization 1"):
+        go_to("Visualization 1")
+with col3:
+    if st.button("Visualization 2"):
+        go_to("Visualization 2")
+with col4:
+    if st.button("Visualization 3"):
+        go_to("Visualization 3")
+
+# ---- PAGE CONTENT ----
+if st.session_state.page == "Home":
+    st.title(" Home Page")
+    st.write("Welcome to the Academic Dashboard!")
+
+elif st.session_state.page == "Visualization 1":
+    st.title(" Visualization 1 Page")
+    st.write("List of courses you are enrolled in:")
+    visualization1 = ["Mathematics", "Physics", "Computer Science"]
+    for visualization1 in visualization1s:
+        st.write("- " + course)
+
+elif st.session_state.page == "Visualization 2":
+    st.title("Visualization 2 Page")
+    st.write("Your exam results:")
+    visualization2 = {
+        "Mathematics": 90,
+        "Physics": 85,
+        "Computer Science": 95
+    }
+    for subject, score in visualization2s.items():
+        st.write(f"{subject}: {score}")
+
+elif st.session_state.page == "Visualization 3":
+    st.title("Visualization 3 Page")
+    st.write("Your exam results:")
+    visualization3 = {
+        "Mathematics": 90,
+        "Physics": 85,
+        "Computer Science": 95
+    }
+    for subject, score in visualization3s.items():
+        st.write(f"{subject}: {score}")
+
 col1, col2, col3, col4 = st.columns(4)
 
 col1.metric(label="PLO 2", value=f"3.3", help="PLO 2: Cognitive Skill", border=True)
