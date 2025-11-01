@@ -1,7 +1,6 @@
 import streamlit as st
 import pandas as pd
 
-
 # --- CSV File Path (from GitHub Raw Link) ---
 csv_url = "https://raw.githubusercontent.com/nhusna01/EC2025/refs/heads/main/processed_av_accident_data.csv"
 
@@ -26,6 +25,11 @@ if st.session_state.page == "Menu":
     st.write("Welcome to the AV Accident Data Dashboard!")
     st.write("Select a visualization page below:")
 
+    # --- Display dataset in Menu page ---
+    st.write("Dataset preview:")
+    st.dataframe(df)
+
+    # --- Navigation Buttons ---
     col1, col2, col3 = st.columns(3)
     with col1:
         if st.button("Visualization 1"):
@@ -37,20 +41,18 @@ if st.session_state.page == "Menu":
         if st.button("Visualization 3"):
             go_to("Visualization 3")
 
+# ---- Visualization 1 (unchanged) ----
 elif st.session_state.page == "Visualization 1":
     st.title("Visualization 1")
     st.write("Example content for Visualization 1")
     visualization1 = ["Mathematics", "Physics", "Computer Science"]
     for course in visualization1:
         st.write("- " + course)
-    
-    # Display dataset
-    st.write("Dataset preview:")
-    st.dataframe(df.head())
 
     if st.button("⬅ Back to Menu"):
         go_to("Menu")
 
+# ---- Visualization 2 (unchanged) ----
 elif st.session_state.page == "Visualization 2":
     st.title("Visualization 2")
     st.write("Example content for Visualization 2")
@@ -62,13 +64,10 @@ elif st.session_state.page == "Visualization 2":
     for subject, score in visualization2.items():
         st.write(f"{subject}: {score}")
 
-    # Display dataset
-    st.write("Dataset preview:")
-    st.dataframe(df.head())
-
     if st.button("⬅ Back to Menu"):
         go_to("Menu")
 
+# ---- Visualization 3 (unchanged) ----
 elif st.session_state.page == "Visualization 3":
     st.title("Visualization 3")
     st.write("Example content for Visualization 3")
@@ -80,6 +79,5 @@ elif st.session_state.page == "Visualization 3":
     for subject, score in visualization3.items():
         st.write(f"{subject}: {score}")
 
-
-
-  
+    if st.button("⬅ Back to Menu"):
+        go_to("Menu")
