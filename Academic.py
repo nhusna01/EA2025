@@ -287,5 +287,68 @@ elif st.session_state.page == "Visualization 3":
     else:
         st.warning("Required columns for Pie Chart not found.")
 
+
+
+st.title("3.3 Radar Chart: Environmental Factors by Weather")
+
+# ---- Check required columns exist ----
+required_cols = ['Weather', 'Roadway_Type', 'Roadway_Surface', 'Lighting']
+if all(col in df.columns for col in required_cols):
+
+    # Aggregate data
+    radar_data = df.groupby(required_cols).size().reset_index(name='Incident_Count')
+
+    # Take top 3 weather conditions by total incidents
+    top_weather = radar_data.groupby('Weather')['Incident_Count'].sum().nlargest(3).index
+    radar_data = radar_data[radar_data['Weather'].isin(top_weather)]
+
+    axes = ['Roadway_Type', 'Roadway_Surface', 'Lighting']
+    weather_categories = radar_data['Weather'].unique()
+    rainbow_colors = ['#FF0000','#FF7F00','#FFFF00','#00FF00','#00FFFF','#0000FF','#FF00FF']
+
+    traces = []
+    for i, weather in enumerate(weather_categories):
+        subset = radar_data[radar_data['Weather'] == weather]
+        values = []
+        for axis in axes:
+            grouped = subset.groupby(axis)['Incident_Count'].sum()
+            val = grouped.max() if not grouped.empty else 0
+            values.append(val)
+        values.append(values[0])  # close the loop
+        traces.append(
+            go.Scatterpolar(
+                r=values,
+                theta=axes + [axes[0]],
+                fill='toself',
+                name=weather,
+                line=dict(color=rainbow_colors[i % len(rainbow_colors)], width=2),
+                opacity=0.7
+            )
+        )
+
+    # Create figure
+    fig = go.Figure(data=traces)
+    fig.update_layout(
+        polar=dict(
+            radialaxis=dict(visible=True, showgrid=True, gridcolor='darkgray'),
+            angularaxis=dict(showgrid=True)
+        ),
+        title='Radar Chart: Incident Distribution Across Environmental Factors by Weather',
+        title_font=dict(size=22, family='Arial Black', color='black'),
+        showlegend=True,
+        legend_title_text='Weather Condition',
+        plot_bgcolor='white'
+    )
+
+    st.plotly_chart(fig, use_container_width=True)
+
+    st.markdown(
+        "**Interpretation:** This radar chart compares how road type, surface, and lighting influence accident occurrences under different weather conditions. Larger areas indicate higher incident counts."
+    )
+
+else:
+    st.warning(f"Required columns {required_cols} not found in the dataset.")
+    
+    
     # --- Back to Menu ---
     st.button("⬅ Back to Menu", on_click=lambda: go_to("Menu"))
