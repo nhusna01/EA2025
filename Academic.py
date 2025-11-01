@@ -291,6 +291,7 @@ elif st.session_state.page == "Visualization 3":
 
 
     # ----------------- 3.3 Radar Chart: Accident Severity by Collision Type -----------------
+    st.subheader("3.3 Radar Chart: Environmental Factors by Weather")
 
 st.title("3.3 Radar Chart: Environmental Factors by Weather")
 
