@@ -72,17 +72,6 @@ elif st.session_state.page == "Visualization 3":
     st.write("Key Statistics from the AV Accident dataset:")
 
    
-    # Display metrics
-    col1, col2, col3, col4 = st.columns(4)
-    col1.metric("Total Accidents", total_accidents)
-    col2.metric("Total Fatalities", total_fatalities)
-    col3.metric("Average Vehicles Involved", f"{avg_vehicles:.2f}" if isinstance(avg_vehicles, float) else avg_vehicles)
-    col4.metric("Average Speed Limit", f"{avg_speed:.2f}" if isinstance(avg_speed, float) else avg_speed)
-
-    # Display severity count as a table
-    if severity_count is not None:
-        st.write("Accidents by Severity:")
-        st.dataframe(severity_count)
-
+    
     if st.button("⬅ Back to Menu"):
         go_to("Menu")  
