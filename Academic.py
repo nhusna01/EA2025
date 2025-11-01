@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 
 # --- CSV File Path (from GitHub Raw Link) ---
-csv_url = "https://raw.githubusercontent.com/nhusna01/EC2025/refs/heads/main/processed_av_accident_data.csv"
+csv_url = "https://raw.githubusercontent.com/nhusna01/EA2025/refs/heads/main/processed_av_accident_data.csv"
 
 # ---- Initialize session_state ----
 if "page" not in st.session_state:
