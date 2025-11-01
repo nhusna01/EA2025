@@ -4,13 +4,6 @@ import pandas as pd
 # --- CSV File Path (from GitHub Raw Link) ---
 csv_url = "https://raw.githubusercontent.com/nhusna01/EC2025/refs/heads/main/processed_av_accident_data.csv"
 
-# ---- Load dataset ----
-@st.cache_data
-def load_data(url):
-    return pd.read_csv(url)
-
-df = load_data(csv_url)
-
 # ---- Initialize session_state ----
 if "page" not in st.session_state:
     st.session_state.page = "Menu"
@@ -18,6 +11,13 @@ if "page" not in st.session_state:
 # ---- Function to change pages ----
 def go_to(page_name):
     st.session_state.page = page_name
+
+# ---- Load dataset ----
+@st.cache_data
+def load_data(url):
+    return pd.read_csv(url)
+
+df = load_data(csv_url)
 
 # ---- PAGE CONTENT ----
 if st.session_state.page == "Menu":
@@ -42,6 +42,10 @@ elif st.session_state.page == "Visualization 1":
     visualization1 = ["Mathematics", "Physics", "Computer Science"]
     for course in visualization1:
         st.write("- " + course)
+    
+    # Display dataset
+    st.write("Dataset preview:")
+    st.dataframe(df.head())
 
     if st.button("⬅ Back to Menu"):
         go_to("Menu")
@@ -57,26 +61,40 @@ elif st.session_state.page == "Visualization 2":
     for subject, score in visualization2.items():
         st.write(f"{subject}: {score}")
 
+    # Display dataset
+    st.write("Dataset preview:")
+    st.dataframe(df.head())
+
     if st.button("⬅ Back to Menu"):
         go_to("Menu")
 
 elif st.session_state.page == "Visualization 3":
-    st.title("Visualization 3")
-    st.write("Example content for Visualization 3")
-    visualization3 = {
-        "Mathematics": 88,
-        "Physics": 92,
-        "Computer Science": 97
-    }
-    for subject, score in visualization3.items():
-        st.write(f"{subject}: {score}")
+    st.title("📊 AV Accident Summary")
+    st.write("Key statistics from the AV Accident dataset:")
+
+    # Only select relevant columns if they exist
+    total_accidents = len(df)
+    total_fatalities = df["Number_of_Casualties"].sum() if "Number_of_Casualties" in df.columns else "N/A"
+    avg_vehicles = df["Number_of_Vehicles"].mean() if "Number_of_Vehicles" in df.columns else "N/A"
+    avg_speed = df["Speed_Limit"].mean() if "Speed_Limit" in df.columns else "N/A"
+    
+    # Count of accidents by severity
+    if "Accident_Severity" in df.columns:
+        severity_count = df["Accident_Severity"].value_counts()
+    else:
+        severity_count = None
+
+    # Display metrics
+    col1, col2, col3, col4 = st.columns(4)
+    col1.metric("Total Accidents", total_accidents)
+    col2.metric("Total Fatalities", total_fatalities)
+    col3.metric("Average Vehicles Involved", f"{avg_vehicles:.2f}" if isinstance(avg_vehicles, float) else avg_vehicles)
+    col4.metric("Average Speed Limit", f"{avg_speed:.2f}" if isinstance(avg_speed, float) else avg_speed)
+
+    # Display severity count as a table
+    if severity_count is not None:
+        st.write("Accidents by Severity:")
+        st.dataframe(severity_count)
 
     if st.button("⬅ Back to Menu"):
         go_to("Menu")
-
-# ---- Metrics (optional, always visible) ----
-col1, col2, col3, col4 = st.columns(4)
-col1.metric(label="PLO 2", value="3.3", help="PLO 2: Cognitive Skill")
-col2.metric(label="PLO 3", value="3.5", help="PLO 3: Digital Skill")
-col3.metric(label="PLO 4", value="4.0", help="PLO 4: Interpersonal Skill")
-col4.metric(label="PLO 5", value="4.3", help="PLO 5: Communication Skill")
