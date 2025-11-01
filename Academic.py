@@ -85,94 +85,6 @@ elif st.session_state.page == "Visualization 1":
 
 
 
-    import streamlit as st
-import pandas as pd
-import plotly.express as px
-
-# ---- Load dataset ----
-@st.cache_data
-def load_data(url):
-    return pd.read_csv(url)
-
-csv_url = "https://raw.githubusercontent.com/nhusna01/EA2025/main/processed_av_accident_data.csv"
-df = load_data(csv_url)
-
-# ---- Page navigation ----
-if "page" not in st.session_state:
-    st.session_state.page = "Menu"
-
-def go_to(page_name):
-    st.session_state.page = page_name
-
-# ---- MENU PAGE ----
-if st.session_state.page == "Menu":
-    st.title("Menu Page")
-    st.write("Welcome to the AV Accident Data Dashboard!")
-
-    st.subheader("Dataset Preview")
-    st.dataframe(df)
-
-    st.subheader("Metrics")
-    col1, col2, col3, col4 = st.columns(4)
-    col1.metric("Total Accidents", len(df))
-    col2.metric("Total Fatalities", df["Number_of_Casualties"].sum() if "Number_of_Casualties" in df.columns else "N/A")
-    col3.metric("Average Vehicles", f"{df['Number_of_Vehicles'].mean():.2f}" if "Number_of_Vehicles" in df.columns else "N/A")
-    col4.metric("Average Speed Limit", f"{df['Speed_Limit'].mean():.2f}" if "Speed_Limit" in df.columns else "N/A")
-
-    st.subheader("Go to Visualizations")
-    col1, col2, col3 = st.columns(3)
-    with col1:
-        if st.button("Visualization 1"):
-            go_to("Visualization 1")
-    with col2:
-        if st.button("Visualization 2"):
-            go_to("Visualization 2")
-    with col3:
-        if st.button("Correlation Heatmap"):
-            go_to("Correlation Heatmap")
-
-# ---- Visualization 1 (existing) ----
-elif st.session_state.page == "Visualization 1":
-    st.title("Visualization 1: Pre-crash Speed vs Severity")
-
-    st.write("Example content for Visualization 1:")
-    for course in ["Mathematics", "Physics", "Computer Science"]:
-        st.write("- " + course)
-
-    # Plotly Box Plot
-    if "Severity" in df.columns and "SV Precrash Speed (MPH)" in df.columns:
-        fig = px.box(
-            df,
-            x="Severity",
-            y="SV Precrash Speed (MPH)",
-            color="Severity",
-            title="Pre-crash Speed vs Severity",
-            color_discrete_sequence=[
-                '#FF0000', '#FF7F00', '#FFD700', '#32CD32', '#00FFFF', '#0000FF', '#FF00FF'
-            ]
-        )
-        fig.update_traces(marker=dict(line=dict(width=1, color='black')), opacity=1)
-        fig.update_layout(title_font=dict(size=20, color='black', family="Arial Black"), plot_bgcolor='white')
-        st.plotly_chart(fig, use_container_width=True)
-
-        st.markdown(
-            "**Interpretation:** Higher pre-crash speeds are strongly associated with greater accident severity."
-        )
-    else:
-        st.warning("Columns 'Severity' or 'SV Precrash Speed (MPH)' not found in dataset.")
-
-    if st.button("⬅ Back to Menu"):
-        go_to("Menu")
-
-# ---- Visualization 2 (placeholder) ----
-elif st.session_state.page == "Visualization 2":
-    st.title("Visualization 2")
-    st.write("Example content for Visualization 2")
-    for subject, score in {"Mathematics": 90, "Physics": 85, "Computer Science": 95}.items():
-        st.write(f"{subject}: {score}")
-
-    if st.button("⬅ Back to Menu"):
-        go_to("Menu")
 
 # ---- Correlation Heatmap ----
 elif st.session_state.page == "Correlation Heatmap":
@@ -208,8 +120,75 @@ elif st.session_state.page == "Correlation Heatmap":
         "**I**
 
 
+
+
+import streamlit as st
+import plotly.express as px
+import pandas as pd
+
+# --- Streamlit Page Setup ---
+st.set_page_config(page_title="Severity by Lighting", layout="wide")
+
+st.title("Distribution of Accident Severity by Lighting Conditions")
+
+# --- Step 0: Compute counts ---
+counts = df_processed_imputed.groupby(['Severity', 'Lighting']).size().reset_index(name='Count')
+
+# --- Step 1: Create grouped bar chart ---
+fig = px.bar(
+    counts,
+    x='Severity',
+    y='Count',
+    color='Lighting',
+    barmode='group',
+    title='Distribution of Severity by Lighting',
+    color_discrete_sequence=['#FF0000', '#FF7F00', '#FFFF00', '#00FF00', '#00FFFF', '#0000FF', '#FF00FF']
+)
+
+# --- Step 2: Add count labels on top of bars ---
+fig.update_traces(text=counts['Count'], textposition='outside')
+
+# --- Step 3: Layout settings ---
+fig.update_layout(
+    plot_bgcolor='#FFFFFF',
+    title_font=dict(size=22, color='black', family='Arial Black'),
+    xaxis_title='Severity',
+    yaxis_title='Count of Incidents',
+    xaxis=dict(
+        title_font=dict(size=16, color='black'),
+        tickfont=dict(size=12, color='black'),
+        showgrid=True, gridcolor='lightgray'
+    ),
+    yaxis=dict(
+        title_font=dict(size=16, color='black'),
+        tickfont=dict(size=12, color='black'),
+        showgrid=True, gridcolor='lightgray'
+    ),
+    legend_title_font=dict(size=14, color='black'),
+    legend_font=dict(size=12),
+    margin=dict(l=50, r=30, t=80, b=50)
+)
+
+# --- Step 4: Show the plot in Streamlit ---
+st.plotly_chart(fig, use_container_width=True)
+
+# --- Step 5: Interpretation (Styled Markdown) ---
+st.markdown(
+    """
+    <div style='font-size:16px; color:black;'>
+    <b style='color:#FF0000;'>Interpretation:</b><br>
+    The grouped bar chart displays how accident <b>severity levels</b> vary under different <b>lighting conditions</b>.
+    The numbers on top of each bar make it easy to identify which lighting environments
+    (e.g., daylight, dark, or artificial lighting) are associated with higher counts of severe accidents.
+    </div>
+    """,
+    unsafe_allow_html=True
+)
+
+        
     if st.button("⬅ Back to Menu"):
         go_to("Menu")
+
 
 # ---- Visualization 2 ----
 elif st.session_state.page == "Visualization 2":
