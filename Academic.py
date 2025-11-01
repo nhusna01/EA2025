@@ -67,17 +67,33 @@ elif st.session_state.page == "Visualization 2":
     if st.button("⬅ Back to Menu"):
         go_to("Menu")
 
-# ---- Visualization 3 (unchanged) ----
 elif st.session_state.page == "Visualization 3":
-    st.title("Visualization 3")
-    st.write("Example content for Visualization 3")
-    visualization3 = {
-        "Mathematics": 88,
-        "Physics": 92,
-        "Computer Science": 97
-    }
-    for subject, score in visualization3.items():
-        st.write(f"{subject}: {score}")
+    st.title("AV Accident Summary")
+    st.write("Key statistics from the AV Accident dataset:")
+
+    st.write("Column names in dataset for debugging:")
+    st.write(df.columns)  # Debugging: check columns
+
+    # Only select relevant columns if they exist
+    total_accidents = len(df)
+    total_fatalities = df["Number_of_Casualties"].sum() if "Number_of_Casualties" in df.columns else "N/A"
+    avg_vehicles = df["Number_of_Vehicles"].mean() if "Number_of_Vehicles" in df.columns else "N/A"
+    avg_speed = df["Speed_Limit"].mean() if "Speed_Limit" in df.columns else "N/A"
+    
+    # Count of accidents by severity
+    severity_count = df["Accident_Severity"].value_counts() if "Accident_Severity" in df.columns else None
+
+    # Display metrics
+    col1, col2, col3, col4 = st.columns(4)
+    col1.metric("Total Accidents", total_accidents)
+    col2.metric("Total Fatalities", total_fatalities)
+    col3.metric("Average Vehicles Involved", f"{avg_vehicles:.2f}" if isinstance(avg_vehicles, float) else avg_vehicles)
+    col4.metric("Average Speed Limit", f"{avg_speed:.2f}" if isinstance(avg_speed, float) else avg_speed)
+
+    # Display severity count as a table
+    if severity_count is not None:
+        st.write("Accidents by Severity:")
+        st.dataframe(severity_count)
 
     if st.button("⬅ Back to Menu"):
-        go_to("Menu")
+        go_to("Menu")  # ✅ Removed trailing comma
