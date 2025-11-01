@@ -46,7 +46,7 @@ if st.session_state.page == "Menu":
     )
 
     st.subheader("Select the Visualizations")
-    col1, col2 = st.columns(2)
+    col1, col2, col3 = st.columns(3)
     with col1:
         if st.button("Visualization 1"):
             go_to("Visualization 1")
@@ -230,9 +230,8 @@ elif st.session_state.page == "Visualization 2":
     # ----------------- Back to Menu -----------------
     st.button("⬅ Back to Menu", on_click=lambda: go_to("Menu"))
 
-    
-    if st.button("⬅ Back to Menu"):
-        go_to("Menu")
+
+
 
 # ---- Visualization 3 ----
 elif st.session_state.page == "Visualization 3":
@@ -241,6 +240,5 @@ elif st.session_state.page == "Visualization 3":
     for subject, score in {"Mathematics": 88, "Physics": 92, "Computer Science": 97}.items():
         st.write(f"{subject}: {score}")
 
-    if st.button("⬅ Back to Menu"):
-        go_to("Menu"), correct the error exist at all line
+    st.button("⬅ Back to Menu", on_click=lambda: go_to("Menu"))
 
