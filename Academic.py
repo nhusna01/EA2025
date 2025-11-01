@@ -4,6 +4,11 @@ import pandas as pd
 # --- CSV File Path (from GitHub Raw Link) ---
 csv_url = "https://raw.githubusercontent.com/nhusna01/EC2025/refs/heads/main/processed_av_accident_data.csv"
 
+# ---- PAGE CONTENT ----
+if st.session_state.page == "Home":
+    st.title(" Home Page")
+    st.write("Welcome to the AV Accident Data Dashboard!")
+    
 # Set the title for the Streamlit app
 st.title("AV Accident Data Survey")
 
@@ -28,10 +33,6 @@ with col3:
     if st.button("Visualization 3"):
         go_to("Visualization 3")
 
-# ---- PAGE CONTENT ----
-if st.session_state.page == "Home":
-    st.title(" Home Page")
-    st.write("Welcome to the AV Accident Data Dashboard!")
 
 elif st.session_state.page == "Visualization 1":
     st.title("Visualization 1 Page")
