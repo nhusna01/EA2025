@@ -6,15 +6,15 @@ csv_url = "https://raw.githubusercontent.com/nhusna01/EC2025/refs/heads/main/pro
 
 # ---- Initialize session_state ----
 if "page" not in st.session_state:
-    st.session_state.page = "Home"
+    st.session_state.page = "Menu"
 
 # ---- Function to change pages ----
 def go_to(page_name):
     st.session_state.page = page_name
 
 # ---- PAGE CONTENT ----
-if st.session_state.page == "Home":
-    st.title("Home Page")
+if st.session_state.page == "Menu":
+    st.title("Menu Page")
     st.write("Welcome to the AV Accident Data Dashboard!")
     st.write("Select a visualization page below:")
 
@@ -36,8 +36,8 @@ elif st.session_state.page == "Visualization 1":
     for course in visualization1:
         st.write("- " + course)
 
-    if st.button("⬅ Back to Home"):
-        go_to("Home")
+    if st.button("⬅ Back to Menu"):
+        go_to("Menu")
 
 elif st.session_state.page == "Visualization 2":
     st.title("Visualization 2")
@@ -50,8 +50,8 @@ elif st.session_state.page == "Visualization 2":
     for subject, score in visualization2.items():
         st.write(f"{subject}: {score}")
 
-    if st.button("⬅ Back to Home"):
-        go_to("Home")
+    if st.button("⬅ Back to Menu"):
+        go_to("Menu")
 
 elif st.session_state.page == "Visualization 3":
     st.title("Visualization 3")
@@ -64,8 +64,8 @@ elif st.session_state.page == "Visualization 3":
     for subject, score in visualization3.items():
         st.write(f"{subject}: {score}")
 
-    if st.button("⬅ Back to Home"):
-        go_to("Home")
+    if st.button("⬅ Back to Menu"):
+        go_to("Menu")
 
 # ---- Metrics (optional, always visible) ----
 col1, col2, col3, col4 = st.columns(4)
