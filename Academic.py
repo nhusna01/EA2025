@@ -28,15 +28,32 @@ if st.session_state.page == "Menu":
     st.write("Dataset preview:")
     st.dataframe(df)
     
-    st.title("Av Accident Data")
-   col1.metric(label="PLO 2", value=f"3.3", help="PLO 2: Cognitive Skill", border=True)
-   col2.metric(label="PLO 3", value=f"3.5", help="PLO 3: Digital Skill", border=True)
-   col3.metric(label="PLO 4", value=f"4.0", help="PLO 4: Interpersonal Skill", border=True)
-   col4.metric(label="PLO 5", value=f"4.3", help="PLO 5: Communication Skill", border=True)
+st.title("Av Accident Data")
+col1, col2, col3, col4 = st.columns(4)
+col1.metric(label="PLO 2", value="3.3", help="PLO 2: Cognitive Skill")
+col2.metric(label="PLO 3", value="3.5", help="PLO 3: Digital Skill")
+col3.metric(label="PLO 4", value="4.0", help="PLO 4: Interpersonal Skill")
+col4.metric(label="PLO 5", value="4.3", help="PLO 5: Communication Skill")
 
 
         
     st.write("Select a visualization page below:")
+
+if st.session_state.page == "Menu":
+    st.title("Menu Page")
+    st.write("Welcome to the AV Accident Data Dashboard!")
+
+    # --- Display dataset ---
+    st.write("Dataset preview:")
+    st.dataframe(df)
+
+    # --- Metrics ---
+    st.title("AV Accident Summary")
+    col1, col2, col3, col4 = st.columns(4)
+    col1.metric(label="PLO 2", value="3.3", help="PLO 2: Cognitive Skill")
+    col2.metric(label="PLO 3", value="3.5", help="PLO 3: Digital Skill")
+    col3.metric(label="PLO 4", value="4.0", help="PLO 4: Interpersonal Skill")
+    col4.metric(label="PLO 5", value="4.3", help="PLO 5: Communication Skill")
 
     # --- Navigation Buttons ---
     col1, col2, col3 = st.columns(3)
@@ -50,7 +67,6 @@ if st.session_state.page == "Menu":
         if st.button("Visualization 3"):
             go_to("Visualization 3")
 
-# ---- Visualization 1 (unchanged) ----
 # ---- Visualization 1 (with Plotly Box Plot) ----
 elif st.session_state.page == "Visualization 1":
     st.title("Visualization 1: Pre-crash Speed vs Severity")
