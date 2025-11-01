@@ -235,10 +235,107 @@ elif st.session_state.page == "Visualization 2":
 
 # ---- Visualization 3 ----
 elif st.session_state.page == "Visualization 3":
-    st.title("Visualization 3")
-    st.write("Example content for Visualization 3")
-    for subject, score in {"Mathematics": 88, "Physics": 92, "Computer Science": 97}.items():
-        st.write(f"{subject}: {score}")
+    st.title("Visualization 3: Environmental and Collision Analysis")
 
+    # ----------------- 3.1 Radar Chart: Environmental Factors by Weather -----------------
+    st.subheader("3.1 Radar Chart: Environmental Factors by Weather")
+    if all(col in df.columns for col in ['Weather', 'Roadway_Type', 'Roadway_Surface', 'Lighting']):
+        radar_data = (
+            df.groupby(['Weather', 'Roadway_Type', 'Roadway_Surface', 'Lighting'])
+            .size().reset_index(name='Incident_Count')
+        )
+        top_weather = radar_data.groupby('Weather')['Incident_Count'].sum().nlargest(3).index
+        radar_data = radar_data[radar_data['Weather'].isin(top_weather)]
+
+        axes = ['Roadway_Type', 'Roadway_Surface', 'Lighting']
+        weather_categories = radar_data['Weather'].unique()
+        rainbow_colors = ['#FF0000','#FF7F00','#FFFF00','#00FF00','#00FFFF','#0000FF','#FF00FF']
+
+        traces = []
+        for i, weather in enumerate(weather_categories):
+            subset = radar_data[radar_data['Weather'] == weather]
+            values = []
+            for axis in axes:
+                val = subset.groupby(axis)['Incident_Count'].sum().max()
+                values.append(val)
+            values.append(values[0])  # Close loop
+            traces.append(go.Scatterpolar(
+                r=values,
+                theta=axes + [axes[0]],
+                fill='toself',
+                name=weather,
+                line=dict(color=rainbow_colors[i % len(rainbow_colors)], width=2),
+                opacity=0.7
+            ))
+
+        fig = go.Figure(data=traces)
+        fig.update_layout(
+            polar=dict(
+                radialaxis=dict(visible=True, showgrid=True, gridcolor='darkgray'),
+                angularaxis=dict(showgrid=True)
+            ),
+            title='Radar Chart: Incident Distribution Across Environmental Factors by Weather',
+            title_font=dict(size=22, family='Arial Black', color='black'),
+            showlegend=True,
+            legend_title_text='Weather Condition',
+            plot_bgcolor='white'
+        )
+        st.plotly_chart(fig, use_container_width=True)
+        st.markdown(
+            "**Interpretation:** This radar chart compares how road type, surface, and lighting influence accident occurrences under various weather conditions. Larger areas indicate higher incidents."
+        )
+    else:
+        st.warning("Required columns for Radar Chart not found.")
+
+    # ----------------- 3.2 Violin Plot: Speed Distribution by Weather -----------------
+    st.subheader("3.2 Violin Plot: Speed Distribution by Weather")
+    if "Weather" in df.columns and "SV Precrash Speed (MPH)" in df.columns:
+        fig = px.violin(
+            df,
+            x='Weather',
+            y='SV Precrash Speed (MPH)',
+            color='Weather',
+            box=True,
+            points='all',
+            color_discrete_sequence=['#FF0000','#FF7F00','#FFFF00','#00FF00','#00FFFF','#0000FF','#FF00FF'],
+            title='Speed Distribution Across Different Weather Conditions'
+        )
+        fig.update_layout(
+            xaxis_title='Weather',
+            yaxis_title='Precrash Speed (MPH)',
+            title_font=dict(size=22, family='Arial Black', color='black'),
+            plot_bgcolor='white'
+        )
+        st.plotly_chart(fig, use_container_width=True)
+        st.markdown(
+            "**Interpretation:** The violin plot shows how pre-crash speeds differ across weather conditions. Wider areas indicate higher data concentration, revealing risky speed patterns under adverse weather."
+        )
+    else:
+        st.warning("Required columns for Violin Plot not found.")
+
+    # ----------------- 3.3 Pie Chart: Accident Severity by Collision Type -----------------
+    st.subheader("3.3 Pie Chart: Accident Severity by Collision Type")
+    if "Crash_With" in df.columns and "Severity" in df.columns:
+        crash_severity_counts = df.groupby(['Crash_With', 'Severity']).size().reset_index(name='Count')
+        fig = px.pie(
+            crash_severity_counts,
+            names='Crash_With',
+            values='Count',
+            color='Crash_With',
+            color_discrete_sequence=['#FF0000','#FF7F00','#FFFF00','#00FF00','#00FFFF','#0000FF','#FF00FF'],
+            title='Distribution of Accident Severity by Collision Type'
+        )
+        fig.update_layout(
+            title_font=dict(size=22, family='Arial Black', color='black'),
+            legend_title_text='Collision Type',
+            showlegend=True
+        )
+        st.plotly_chart(fig, use_container_width=True)
+        st.markdown(
+            "**Interpretation:** The pie chart shows the proportion of incidents by collision type. Larger segments indicate more frequent collision categories, revealing key accident risk sources."
+        )
+    else:
+        st.warning("Required columns for Pie Chart not found.")
+
+    # --- Back to Menu ---
     st.button("⬅ Back to Menu", on_click=lambda: go_to("Menu"))
-
