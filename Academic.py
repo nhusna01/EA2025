@@ -18,18 +18,15 @@ def go_to(page_name):
     st.session_state.page = page_name
 
 # ---- Navigation Buttons ----
-col1, col2, col3, col4 = st.columns(4)
-
+col1, col2, col3 = st.columns(3)
+)
 with col1:
-    if st.button("Home"):
-        go_to("Home")
-with col2:
     if st.button("Visualization 1"):
         go_to("Visualization 1")
-with col3:
+with col2:
     if st.button("Visualization 2"):
         go_to("Visualization 2")
-with col4:
+with col3:
     if st.button("Visualization 3"):
         go_to("Visualization 3")
 
