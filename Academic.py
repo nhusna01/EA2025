@@ -237,7 +237,7 @@ elif st.session_state.page == "Visualization 2":
 elif st.session_state.page == "Visualization 3":
     st.title("Visualization 3: Environmental and Collision Analysis")
 
-    # ----------------- 3.2 Violin Plot: Speed Distribution by Weather -----------------
+    # ----------------- 3.1 Violin Plot: Speed Distribution by Weather -----------------
     st.subheader("3.2 Violin Plot: Speed Distribution by Weather")
     if "Weather" in df.columns and "SV Precrash Speed (MPH)" in df.columns:
         fig = px.violin(
@@ -263,7 +263,7 @@ elif st.session_state.page == "Visualization 3":
     else:
         st.warning("Required columns for Violin Plot not found.")
 
-    # ----------------- 3.3 Pie Chart: Accident Severity by Collision Type -----------------
+    # ----------------- 3.2 Pie Chart: Accident Severity by Collision Type -----------------
     st.subheader("3.3 Pie Chart: Accident Severity by Collision Type")
     if "Crash_With" in df.columns and "Severity" in df.columns:
         crash_severity_counts = df.groupby(['Crash_With', 'Severity']).size().reset_index(name='Count')
