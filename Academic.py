@@ -50,6 +50,12 @@ if st.session_state.page == "Menu":
     with col1:
         if st.button("Visualization 1"):
             go_to("Visualization 1")
+    with col2: 
+        if st.button("Visualization 2"): 
+            go_to("Visualization 2") 
+    with col3: 
+        if st.button("Visualization 3"): 
+            go_to("Visualization 3")
 
 # ---- Visualization 1 ----
 elif st.session_state.page == "Visualization 1":
@@ -132,3 +138,110 @@ elif st.session_state.page == "Visualization 1":
     # --- Back to Menu Button ---
     if st.button("⬅ Back to Menu"):
         go_to("Menu")
+
+# ---- Visualization 2 ----
+elif st.session_state.page == "Visualization 2":
+    st.title("Visualization 2: AV Accident Distribution")
+
+
+
+
+
+# ----------------- 2.1 Box Plot: Pre-crash Speed vs Severity -----------------
+    st.subheader("2.1 Pre-crash Speed vs Severity (Box Plot)")
+    if "Severity" in df.columns and "SV Precrash Speed (MPH)" in df.columns:
+        fig1 = px.box(
+            df,
+            x="Severity",
+            y="SV Precrash Speed (MPH)",
+            color="Severity",
+            title="Pre-crash Speed vs Severity",
+            color_discrete_sequence=['#FF0000','#FF7F00','#FFD700','#32CD32','#00FFFF','#0000FF','#FF00FF']
+        )
+        fig1.update_traces(marker=dict(line=dict(width=1, color='black')), opacity=1)
+        fig1.update_layout(title_font=dict(size=20, color='black', family="Arial Black"), plot_bgcolor='white')
+        st.plotly_chart(fig1, use_container_width=True)
+        st.markdown(
+            "**Interpretation:** Higher pre-crash speeds are associated with greater accident severity. Bold colors highlight differences between severity levels."
+        )
+    else:
+        st.warning("Required columns for Box Plot not found.")
+
+    # ----------------- 2.2 Histogram / Stacked Bar: Accident Distribution by Model Year -----------------
+    st.subheader("2.2 Accident Distribution by Model Year and Severity (Stacked Bar)")
+    if "Model Year" in df.columns and "Severity" in df.columns:
+        df_counts = df.groupby(['Model Year', 'Severity']).size().reset_index(name='Count')
+        df_counts['Model Year'] = df_counts['Model Year'].astype(str)
+        df_counts = df_counts.sort_values('Model Year')
+        
+        fig2 = px.bar(
+            df_counts,
+            x='Model Year',
+            y='Count',
+            color='Severity',
+            barmode='relative',
+            color_discrete_sequence=['#FF0000','#FF7F00','#FFFF00','#00FF00','#00FFFF','#0000FF','#FF00FF'],
+            title='Accident Distribution by Model Year and Severity'
+        )
+        fig2.update_layout(
+            xaxis_title='Model Year',
+            yaxis_title='Number of Incidents',
+            plot_bgcolor='white',
+            title_font=dict(size=20, color='black', family='Arial Black')
+        )
+        st.plotly_chart(fig2, use_container_width=True)
+        st.markdown(
+            "**Interpretation:** This stacked bar chart shows how accident severity varies across vehicle model years. It highlights which model years have higher counts and severe incidents."
+        )
+    else:
+        st.warning("Required columns for Stacked Bar not found.")
+
+    # ----------------- 2.3 Violin / Density Plot: Severity by Air Bag Deployment -----------------
+    st.subheader("2.3 Severity Distribution by Air Bag Deployment (Violin Plot)")
+    if "Air_Bag" in df.columns and "Severity" in df.columns:
+        fig3 = px.violin(
+            df,
+            x='Air_Bag',
+            y='Severity',
+            color='Air_Bag',
+            color_discrete_sequence=['#FF0000','#FF7F00','#FFFF00','#00FF00','#00FFFF','#0000FF','#FF00FF'],
+            box=True,
+            points='all',
+            title='Severity Distribution by Air Bag Deployment'
+        )
+        fig3.update_traces(opacity=0.8, line=dict(width=1.5), marker=dict(size=4, opacity=0.6))
+        fig3.update_layout(
+            xaxis_title='Air Bag Deployment Status',
+            yaxis_title='Severity',
+            plot_bgcolor='white',
+            title_font=dict(size=22, family='Arial Black', color='black'),
+            yaxis=dict(showgrid=True, gridcolor='lightgray'),
+            xaxis=dict(showgrid=True, gridcolor='lightgray'),
+            showlegend=True,
+            legend_title_text='Air Bag Status'
+        )
+        st.plotly_chart(fig3, use_container_width=True)
+        st.markdown(
+            "**Interpretation:** This violin plot shows severity distribution for vehicles with and without airbags. Wider areas indicate higher concentration of incidents for each severity level."
+        )
+    else:
+        st.warning("Required columns for Violin Plot not found.")
+
+    # ----------------- Back to Menu -----------------
+    st.button("⬅ Back to Menu", on_click=lambda: go_to("Menu"))
+
+    
+    if st.button("⬅ Back to Menu"):
+        go_to("Menu")
+
+# ---- Visualization 3 ----
+elif st.session_state.page == "Visualization 3":
+    st.title("Visualization 3")
+    st.write("Example content for Visualization 3")
+    for subject, score in {"Mathematics": 88, "Physics": 92, "Computer Science": 97}.items():
+        st.write(f"{subject}: {score}")
+
+    if st.button("⬅ Back to Menu"):
+        go_to("Menu"), correct the error exist at all line
+You said:
+no those three graphs are in visualisation 1 which indicate as 1.1, 1.2, 1.3
