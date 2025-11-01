@@ -290,7 +290,7 @@ elif st.session_state.page == "Visualization 3":
 
     # ----------------- 3.3 Radar Chart: Accident Severity by Collision Type -----------------
 
-st.title("3.3 Radar Chart: Environmental Factors by Weather")
+st.title("3.1 Radar Chart: Environmental Factors by Weather")
 
 # ---- Check required columns exist ----
 required_cols = ['Weather', 'Roadway_Type', 'Roadway_Surface', 'Lighting']
@@ -316,16 +316,17 @@ if all(col in df.columns for col in required_cols):
             val = grouped.max() if not grouped.empty else 0
             values.append(val)
         values.append(values[0])  # close the loop
-        traces.append(
-            go.Scatterpolar(
-                r=values,
-                theta=axes + [axes[0]],
-                fill='toself',
-                name=weather,
-                line=dict(color=rainbow_colors[i % len(rainbow_colors)], width=2),
-                opacity=0.7
-            )
+
+        # Append trace correctly
+        trace = go.Scatterpolar(
+            r=values,
+            theta=axes + [axes[0]],
+            fill='toself',
+            name=weather,
+            line=dict(color=rainbow_colors[i % len(rainbow_colors)], width=2),
+            opacity=0.7
         )
+        traces.append(trace)
 
     # Create figure
     fig = go.Figure(data=traces)
