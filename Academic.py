@@ -69,20 +69,9 @@ elif st.session_state.page == "Visualization 2":
 
 elif st.session_state.page == "Visualization 3":
     st.title("AV Accident Summary")
-    st.write("Key statistics from the AV Accident dataset:")
+    st.write("Key Statistics from the AV Accident dataset:")
 
-    st.write("Column names in dataset for debugging:")
-    st.write(df.columns)  # Debugging: check columns
-
-    # Only select relevant columns if they exist
-    total_accidents = len(df)
-    total_fatalities = df["Number_of_Casualties"].sum() if "Number_of_Casualties" in df.columns else "N/A"
-    avg_vehicles = df["Number_of_Vehicles"].mean() if "Number_of_Vehicles" in df.columns else "N/A"
-    avg_speed = df["Speed_Limit"].mean() if "Speed_Limit" in df.columns else "N/A"
-    
-    # Count of accidents by severity
-    severity_count = df["Accident_Severity"].value_counts() if "Accident_Severity" in df.columns else None
-
+   
     # Display metrics
     col1, col2, col3, col4 = st.columns(4)
     col1.metric("Total Accidents", total_accidents)
@@ -96,4 +85,4 @@ elif st.session_state.page == "Visualization 3":
         st.dataframe(severity_count)
 
     if st.button("⬅ Back to Menu"):
-        go_to("Menu")  # ✅ Removed trailing comma
+        go_to("Menu")  
