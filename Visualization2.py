@@ -5,14 +5,48 @@ import plotly.express as px
 # ---- Streamlit Page Setup ----
 st.set_page_config(page_title="AV Accident Dashboard", layout="wide")
 
-# ---- Load Dataset ----
-@st.cache_data
-def load_data(url):
-    return pd.read_csv(url)
+st.title("AV Accident Dashboard")
 
-# Load data directly from GitHub
-csv_url = "https://raw.githubusercontent.com/nhusna01/EA2025/main/processed_av_accident_data.csv"
-df = load_data(csv_url)
+# ---- Load Dataset Section ----
+st.markdown("---")
+st.header("Load Dataset")
+
+# ---- Dataset URL ----
+DATA_URL = "https://raw.githubusercontent.com/nhusna01/EA2025/main/processed_av_accident_data.csv"
+
+# ---- Load the dataset ----
+try:
+    df = pd.read_csv(DATA_URL)
+    st.success("Dataset loaded successfully from GitHub!")
+except Exception as e:
+    st.error(f"Failed to load dataset. Error: {e}")
+    df = None
+
+# ---- Display dataset preview ----
+if df is not None:
+    st.markdown("Data Preview")
+    st.dataframe(df.head(), use_container_width=True)
+
+# ---- Optional styling for neat layout ----
+st.markdown("""
+<style>
+    [data-testid="stDataFrame"] {
+        border: 1px solid #e3e3e3;
+        border-radius: 10px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+</style>
+""", unsafe_allow_html=True)
+
+# ---- Objectives Section ----
+
+st.markdown("---")
+st.header("Objectives")
+
+st.markdown("""
+This dashboard aims to **analyze Autonomous Vehicle (AV) accident data** and uncover key insights into accident patterns and contributing factors.
+""")
+
 
 # ---- Page Title ----
 st.title("Visualization 2: Evaluate Safety Performance Across Manufacturers, Models, and Operational Entities")
