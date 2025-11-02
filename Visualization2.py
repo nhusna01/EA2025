@@ -44,12 +44,19 @@ st.markdown("---")
 st.header("Objectives")
 
 st.markdown("""
-This dashboard aims to **analyze Autonomous Vehicle (AV) accident data** and uncover key insights into accident patterns and contributing factors.
+This dashboard aims to **analyze Autonomous Vehicle (AV) accident data** and evaluate Safety Performance Across Manufacturers, Models, and Operational Entities.
+""")
+# ---- Objective Section ----
+st.markdown("---")
+st.header("Objective 2: Evaluate Safety Performance Across Manufacturers, Models, and Operational Entities")
+
+st.markdown("""
+This dashboard aims to **evaluate the safety performance and reliability** of autonomous vehicles (AVs) across different manufacturers, models, model years, and operating entities.
+
+**Rationale:**
+By analyzing accident patterns across various makes, models, and operational entities, this objective seeks to assess performance disparities and reliability variations. Incorporating **cluster analysis** helps identify recurring trends or geographic concentrations of incidents, enabling **evidence-based decision-making** and supporting **regulatory improvements** within the AV ecosystem.
 """)
 
-
-# ---- Page Title ----
-st.title("Visualization 2: Evaluate Safety Performance Across Manufacturers, Models, and Operational Entities")
 
 # ---- Custom Metrics Aligned with Objective 2 ----
 st.markdown("### Key Metrics Overview")
@@ -101,16 +108,6 @@ for col, (label, value, help_text) in zip(cols, metrics):
         </div>
     """, unsafe_allow_html=True)
 
-# ---- Objective Section ----
-st.markdown("---")
-st.header("Objective 2: Evaluate Safety Performance Across Manufacturers, Models, and Operational Entities")
-
-st.markdown("""
-This dashboard aims to **evaluate the safety performance and reliability** of autonomous vehicles (AVs) across different manufacturers, models, model years, and operating entities.
-
-**Rationale:**
-By analyzing accident patterns across various makes, models, and operational entities, this objective seeks to assess performance disparities and reliability variations. Incorporating **cluster analysis** helps identify recurring trends or geographic concentrations of incidents, enabling **evidence-based decision-making** and supporting **regulatory improvements** within the AV ecosystem.
-""")
 
 # ---- Visualization Section ----
 st.markdown("---")
