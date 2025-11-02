@@ -15,10 +15,10 @@ csv_url = "https://raw.githubusercontent.com/nhusna01/EA2025/main/processed_av_a
 df = load_data(csv_url)
 
 # ---- Page Title ----
-st.title("Visualization 2: Autonomous Vehicle Accident Analysis")
+st.title("Visualization 2: Evaluate Safety Performance Across Manufacturers, Models, and Operational Entities")
 
 # ---- Custom Metrics Aligned with Objective 2 ----
-# Example metrics: total manufacturers, total models, top manufacturer by accidents, top operational entity
+st.markdown("### Key Metrics Overview")
 
 total_manufacturers = df["Make"].nunique() if "Make" in df.columns else "N/A"
 total_models = df["Model"].nunique() if "Model" in df.columns else "N/A"
@@ -40,10 +40,10 @@ else:
     top_entity_display = "N/A"
 
 metrics = [
-    ("Total Manufacturers", total_manufacturers, "Number of unique vehicle manufacturers involved in accidents."),
-    ("Total Vehicle Models", total_models, "Number of distinct vehicle models involved in accidents."),
-    ("Top Manufacturer by Accidents", top_manufacturer_display, "Manufacturer with the highest number of accidents (count in parentheses)."),
-    ("Top Operating Entity by Accidents", top_entity_display, "Operating entity with the highest number of accidents (count in parentheses).")
+    ("Total Manufacturers", total_manufacturers, "Unique vehicle manufacturers involved in accidents."),
+    ("Total Vehicle Models", total_models, "Distinct vehicle models involved in accidents."),
+    ("Top Manufacturer by Accidents", top_manufacturer_display, "Manufacturer with the highest number of accidents."),
+    ("Top Operating Entity by Accidents", top_entity_display, "Operating entity with the highest number of accidents.")
 ]
 
 cols = st.columns(4)
@@ -67,10 +67,7 @@ for col, (label, value, help_text) in zip(cols, metrics):
         </div>
     """, unsafe_allow_html=True)
 
-
-
-
-# ---- Objectives Section ----
+# ---- Objective Section ----
 st.markdown("---")
 st.header("Objective 2: Evaluate Safety Performance Across Manufacturers, Models, and Operational Entities")
 
@@ -81,98 +78,80 @@ This dashboard aims to **evaluate the safety performance and reliability** of au
 By analyzing accident patterns across various makes, models, and operational entities, this objective seeks to assess performance disparities and reliability variations. Incorporating **cluster analysis** helps identify recurring trends or geographic concentrations of incidents, enabling **evidence-based decision-making** and supporting **regulatory improvements** within the AV ecosystem.
 """)
 
-
 # ---- Visualization Section ----
 st.markdown("---")
-st.header(" Visualizations")
-
-# ---- Visualization 2 ----
-elif st.session_state.page == "Visualization 2":
-    st.title("Visualization 2: AV Accident Distribution")
-
-
-# ---- Visualization 2 ----
-elif st.session_state.page == "Visualization 2":
-    st.title("Visualization 2: AV Accident Distribution")
-
+st.header("Visualizations")
 
 # ----------------- 2.1 Box Plot: Pre-crash Speed vs Severity -----------------
-    st.subheader("2.1 Pre-crash Speed vs Severity (Box Plot)")
-    if "Severity" in df.columns and "SV Precrash Speed (MPH)" in df.columns:
-        fig1 = px.box(
-            df,
-            x="Severity",
-            y="SV Precrash Speed (MPH)",
-            color="Severity",
-            title="Pre-crash Speed vs Severity",
-            color_discrete_sequence=['#FF0000','#FF7F00','#FFD700','#32CD32','#00FFFF','#0000FF','#FF00FF']
-        )
-        fig1.update_traces(marker=dict(line=dict(width=1, color='black')), opacity=1)
-        fig1.update_layout(title_font=dict(size=20, color='black', family="Arial Black"), plot_bgcolor='white')
-        st.plotly_chart(fig1, use_container_width=True)
-        st.markdown(
-            "**Interpretation:** Higher pre-crash speeds are associated with greater accident severity. Bold colors highlight differences between severity levels."
-        )
-    else:
-        st.warning("Required columns for Box Plot not found.")
+st.subheader("2.1 Pre-crash Speed vs Severity (Box Plot)")
+if "Severity" in df.columns and "SV Precrash Speed (MPH)" in df.columns:
+    fig1 = px.box(
+        df,
+        x="Severity",
+        y="SV Precrash Speed (MPH)",
+        color="Severity",
+        title="Pre-crash Speed vs Severity",
+        color_discrete_sequence=['#FF0000','#FF7F00','#FFD700','#32CD32','#00FFFF','#0000FF','#FF00FF']
+    )
+    fig1.update_traces(marker=dict(line=dict(width=1, color='black')), opacity=1)
+    fig1.update_layout(title_font=dict(size=20, color='black', family="Arial Black"), plot_bgcolor='white')
+    st.plotly_chart(fig1, use_container_width=True)
+    st.markdown("**Interpretation:** Higher pre-crash speeds are associated with greater accident severity. Bold colors highlight differences between severity levels.")
+else:
+    st.warning("Required columns for Box Plot not found.")
 
-    # ----------------- 2.2 Histogram / Stacked Bar: Accident Distribution by Model Year -----------------
-    st.subheader("2.2 Accident Distribution by Model Year and Severity (Stacked Bar)")
-    if "Model Year" in df.columns and "Severity" in df.columns:
-        df_counts = df.groupby(['Model Year', 'Severity']).size().reset_index(name='Count')
-        df_counts['Model Year'] = df_counts['Model Year'].astype(str)
-        df_counts = df_counts.sort_values('Model Year')
-        
-        fig2 = px.bar(
-            df_counts,
-            x='Model Year',
-            y='Count',
-            color='Severity',
-            barmode='relative',
-            color_discrete_sequence=['#FF0000','#FF7F00','#FFFF00','#00FF00','#00FFFF','#0000FF','#FF00FF'],
-            title='Accident Distribution by Model Year and Severity'
-        )
-        fig2.update_layout(
-            xaxis_title='Model Year',
-            yaxis_title='Number of Incidents',
-            plot_bgcolor='white',
-            title_font=dict(size=20, color='black', family='Arial Black')
-        )
-        st.plotly_chart(fig2, use_container_width=True)
-        st.markdown(
-            "**Interpretation:** This stacked bar chart shows how accident severity varies across vehicle model years. It highlights which model years have higher counts and severe incidents."
-        )
-    else:
-        st.warning("Required columns for Stacked Bar not found.")
+# ----------------- 2.2 Stacked Bar: Accident Distribution by Model Year -----------------
+st.subheader("2.2 Accident Distribution by Model Year and Severity (Stacked Bar)")
+if "Model Year" in df.columns and "Severity" in df.columns:
+    df_counts = df.groupby(['Model Year', 'Severity']).size().reset_index(name='Count')
+    df_counts['Model Year'] = df_counts['Model Year'].astype(str)
+    df_counts = df_counts.sort_values('Model Year')
+    
+    fig2 = px.bar(
+        df_counts,
+        x='Model Year',
+        y='Count',
+        color='Severity',
+        barmode='relative',
+        color_discrete_sequence=['#FF0000','#FF7F00','#FFFF00','#00FF00','#00FFFF','#0000FF','#FF00FF'],
+        title='Accident Distribution by Model Year and Severity'
+    )
+    fig2.update_layout(
+        xaxis_title='Model Year',
+        yaxis_title='Number of Incidents',
+        plot_bgcolor='white',
+        title_font=dict(size=20, color='black', family='Arial Black')
+    )
+    st.plotly_chart(fig2, use_container_width=True)
+    st.markdown("**Interpretation:** This stacked bar chart shows how accident severity varies across vehicle model years. It highlights which model years have higher counts and severe incidents.")
+else:
+    st.warning("Required columns for Stacked Bar not found.")
 
-    # ----------------- 2.3 Violin / Density Plot: Severity by Air Bag Deployment -----------------
-    st.subheader("2.3 Severity Distribution by Air Bag Deployment (Violin Plot)")
-    if "Air_Bag" in df.columns and "Severity" in df.columns:
-        fig3 = px.violin(
-            df,
-            x='Air_Bag',
-            y='Severity',
-            color='Air_Bag',
-            color_discrete_sequence=['#FF0000','#FF7F00','#FFFF00','#00FF00','#00FFFF','#0000FF','#FF00FF'],
-            box=True,
-            points='all',
-            title='Severity Distribution by Air Bag Deployment'
-        )
-        fig3.update_traces(opacity=0.8, line=dict(width=1.5), marker=dict(size=4, opacity=0.6))
-        fig3.update_layout(
-            xaxis_title='Air Bag Deployment Status',
-            yaxis_title='Severity',
-            plot_bgcolor='white',
-            title_font=dict(size=22, family='Arial Black', color='black'),
-            yaxis=dict(showgrid=True, gridcolor='lightgray'),
-            xaxis=dict(showgrid=True, gridcolor='lightgray'),
-            showlegend=True,
-            legend_title_text='Air Bag Status'
-        )
-        st.plotly_chart(fig3, use_container_width=True)
-        st.markdown(
-            "**Interpretation:** This violin plot shows severity distribution for vehicles with and without airbags. Wider areas indicate higher concentration of incidents for each severity level."
-        )
-    else:
-        st.warning("Required columns for Violin Plot not found.")
-
+# ----------------- 2.3 Violin Plot: Severity by Air Bag Deployment -----------------
+st.subheader("2.3 Severity Distribution by Air Bag Deployment (Violin Plot)")
+if "Air_Bag" in df.columns and "Severity" in df.columns:
+    fig3 = px.violin(
+        df,
+        x='Air_Bag',
+        y='Severity',
+        color='Air_Bag',
+        color_discrete_sequence=['#FF0000','#FF7F00','#FFFF00','#00FF00','#00FFFF','#0000FF','#FF00FF'],
+        box=True,
+        points='all',
+        title='Severity Distribution by Air Bag Deployment'
+    )
+    fig3.update_traces(opacity=0.8, line=dict(width=1.5), marker=dict(size=4, opacity=0.6))
+    fig3.update_layout(
+        xaxis_title='Air Bag Deployment Status',
+        yaxis_title='Severity',
+        plot_bgcolor='white',
+        title_font=dict(size=22, family='Arial Black', color='black'),
+        yaxis=dict(showgrid=True, gridcolor='lightgray'),
+        xaxis=dict(showgrid=True, gridcolor='lightgray'),
+        showlegend=True,
+        legend_title_text='Air Bag Status'
+    )
+    st.plotly_chart(fig3, use_container_width=True)
+    st.markdown("**Interpretation:** This violin plot shows severity distribution for vehicles with and without airbags. Wider areas indicate higher concentration of incidents for each severity level.")
+else:
+    st.warning("Required columns for Violin Plot not found.")
