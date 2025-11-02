@@ -91,6 +91,11 @@ elif st.session_state.page == "Visualization 2":
     st.title("Visualization 2: AV Accident Distribution")
 
 
+# ---- Visualization 2 ----
+elif st.session_state.page == "Visualization 2":
+    st.title("Visualization 2: AV Accident Distribution")
+
+
 # ----------------- 2.1 Box Plot: Pre-crash Speed vs Severity -----------------
     st.subheader("2.1 Pre-crash Speed vs Severity (Box Plot)")
     if "Severity" in df.columns and "SV Precrash Speed (MPH)" in df.columns:
@@ -173,3 +178,4 @@ elif st.session_state.page == "Visualization 2":
 
     # ----------------- Back to Menu -----------------
     st.button("⬅ Back to Menu", on_click=lambda: go_to("Menu"))
+
