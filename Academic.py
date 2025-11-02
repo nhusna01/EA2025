@@ -3,7 +3,6 @@ import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 
-
 # ---- Streamlit Page Setup ----
 st.set_page_config(page_title="AV Accident Dashboard", layout="wide")
 
