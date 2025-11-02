@@ -121,7 +121,7 @@ if all(col in df.columns for col in required_cols):
     # Add interpretation text
     st.markdown("""
     <div style='background-color:#F8F9FA; padding:15px; border-radius:10px; border:1px solid #DDD;'>
-        <span style='color:#D700FF; font-weight:bold; font-size:14pt;'>
+        <span style='color:black; font-weight:bold; font-size:14pt;'>
         **Interpretation:** The histogram shows the distribution of incidents across different vehicle makes, 
         colored by severity. This allows us to see which makes are involved in the most incidents and how severity 
         is distributed among them.
