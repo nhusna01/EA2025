@@ -61,21 +61,20 @@ with col3:
 st.markdown("---")
 st.header("Key Metrics Overview")
 
+# Calculate key metrics
 total_serious = df[df["Severity"] == "Serious"].shape[0] if "Severity" in df.columns else "N/A"
 most_common_weather = df["Weather"].mode()[0] if "Weather" in df.columns else "N/A"
 common_severity = df["Severity"].value_counts().idxmax() if "Severity" in df.columns else "N/A"
-constant_collision = df["Crash_With"].value_counts().idxmax() if "Crash_With" in df.columns else "N/A"
+common_collision = df["Crash_With"].value_counts().idxmax() if "Crash_With" in df.columns else "N/A"
 
-
+# Display metrics in cards
 metrics = [
-    ("Total Serious Accidents", total_fatal, "Total number of accidents resulting in serious fatalities."),
+    ("Total Serious Accidents", total_serious, "Total number of accidents classified as serious."),
     ("Most Common Weather", most_common_weather, "Weather condition where most accidents occurred."),
-    ("Most Frequent Severity", common_severity, "Severity level with highest number of cases."),
-    ("Most Constant Collision", common_collision, "Collision with highest number of occurrences."),
-
+    ("Most Frequent Severity", common_severity, "Severity level with the highest number of cases."),
+    ("Most Common Collision Type", common_collision, "Type of collision that occurred most frequently."),
 ]
 
-# === Display in the same layout (5 cards with hover tooltip) ===
 cols = st.columns(4)
 for col, (label, value, help_text) in zip(cols, metrics):
     col.markdown(f"""
@@ -87,6 +86,7 @@ for col, (label, value, help_text) in zip(cols, metrics):
             <div style="font-size:26px; font-weight:800;">{value}</div>
         </div>
     """, unsafe_allow_html=True)
+
 
 
 
