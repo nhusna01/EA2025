@@ -99,9 +99,10 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# ---- Custom Metrics Aligned with Objective 2 ----
-st.markdown("### Key Metrics Overview")
+# ---- Custom Metrics with 'help' icon ----
+st.markdown("Key Metrics Overview")
 
+# --- Compute Key Metrics ---
 total_manufacturers = df["Make"].nunique() if "Make" in df.columns else "N/A"
 total_models = df["Model"].nunique() if "Model" in df.columns else "N/A"
 
@@ -121,13 +122,15 @@ if "Operating Entity" in df.columns:
 else:
     top_entity_display = "N/A"
 
+# --- Metric Display Setup ---
 metrics = [
-    ("Total Manufacturers", total_manufacturers, "Unique vehicle manufacturers involved in accidents."),
-    ("Total Vehicle Models", total_models, "Distinct vehicle models involved in accidents."),
-    ("Top Manufacturer by Accidents", top_manufacturer_display, "Manufacturer with the highest number of accidents."),
-    ("Top Operating Entity by Accidents", top_entity_display, "Operating entity with the highest number of accidents.")
+    ("Total Manufacturers", total_manufacturers, "Number of unique vehicle manufacturers involved in accidents."),
+    ("Total Vehicle Models", total_models, "Count of distinct autonomous vehicle models in the dataset."),
+    ("Top Manufacturer by Accidents", top_manufacturer_display, "Manufacturer with the highest recorded accident count."),
+    ("Top Operating Entity by Accidents", top_entity_display, "Operational entity involved in the most accidents.")
 ]
 
+# --- Display Metrics in 4 Columns ---
 cols = st.columns(4)
 for col, (label, value, help_text) in zip(cols, metrics):
     col.markdown(f"""
@@ -143,11 +146,12 @@ for col, (label, value, help_text) in zip(cols, metrics):
             justify-content:center;
         ">
             <div style="font-size:16px; font-weight:700; color:#1E293B; margin-bottom:8px; line-height:1.2em;">
-                {label} <span title="{help_text}" style="cursor:help; color:#2563EB;">❓</span>
+                {label} <span title="{help_text}" style="cursor:help; color:#2563EB;">🛈</span>
             </div>
             <div style="font-size:26px; font-weight:800; color:#000;">{value}</div>
         </div>
     """, unsafe_allow_html=True)
+
 
 
 # ---- Visualization Section ----
