@@ -82,23 +82,55 @@ By analyzing accident patterns across various makes, models, and operational ent
 st.markdown("---")
 st.header("Visualizations")
 
-# ----------------- 2.1 Box Plot: Pre-crash Speed vs Severity -----------------
-st.subheader("2.1 Pre-crash Speed vs Severity (Box Plot)")
-if "Severity" in df.columns and "SV Precrash Speed (MPH)" in df.columns:
-    fig1 = px.box(
+# ---- Visualization: Make Distribution by Severity (Histogram + Box) ----
+st.subheader("2.X Make Distribution by Severity (Histogram + Box Plot)")
+
+# Check if required columns exist
+required_cols = ['Make', 'Severity']
+if all(col in df.columns for col in required_cols):
+    fig = px.histogram(
         df,
-        x="Severity",
-        y="SV Precrash Speed (MPH)",
-        color="Severity",
-        title="Pre-crash Speed vs Severity",
-        color_discrete_sequence=['#FF0000','#FF7F00','#FFD700','#32CD32','#00FFFF','#0000FF','#FF00FF']
+        x='Make',
+        color='Severity',
+        marginal='box',  # Optional box plot above
+        title='Make Distribution by Severity',
+        hover_data=['Make', 'Model', 'Model Year', 'Mileage', 'Cluster ID', 'Severity'],
+        color_discrete_sequence=[
+            '#FF0000', '#FF7F00', '#FFFF00', '#00FF00', '#00FFFF', '#0000FF', '#FF00FF'
+        ]
     )
-    fig1.update_traces(marker=dict(line=dict(width=1, color='black')), opacity=1)
-    fig1.update_layout(title_font=dict(size=18, color='black', family="Arial Black"), plot_bgcolor='white')
-    st.plotly_chart(fig1, use_container_width=True)
-    st.markdown("**Interpretation:** Higher pre-crash speeds are associated with greater accident severity. Bold colors highlight differences between severity levels.")
+
+    # Layout improvements
+    fig.update_layout(
+        plot_bgcolor='#FFFFFF',
+        title_font=dict(size=22, color='black', family='Arial Black'),
+        xaxis_title='Make',
+        yaxis_title='Number of Incidents',
+        xaxis=dict(title_font=dict(size=16, color='black'),
+                   tickfont=dict(size=12, color='black')),
+        yaxis=dict(title_font=dict(size=16, color='black'),
+                   tickfont=dict(size=12, color='black')),
+        legend_title_font=dict(size=14, color='black'),
+        legend_font=dict(size=12),
+        margin=dict(l=50, r=30, t=80, b=50)
+    )
+
+    # Display in Streamlit
+    st.plotly_chart(fig, use_container_width=True)
+
+    # Add interpretation text
+    st.markdown("""
+    <div style='background-color:#F8F9FA; padding:15px; border-radius:10px; border:1px solid #DDD;'>
+        <span style='color:#D700FF; font-weight:bold; font-size:14pt;'>
+        **Interpretation:** The histogram shows the distribution of incidents across different vehicle makes, 
+        colored by severity. This allows us to see which makes are involved in the most incidents and how severity 
+        is distributed among them.
+        </span>
+    </div>
+    """, unsafe_allow_html=True)
 else:
-    st.warning("Required columns for Box Plot not found.")
+    st.warning("Required columns ('Make', 'Severity') not found in dataset.")
+
 
 # ----------------- 2.2 Stacked Bar: Accident Distribution by Model Year -----------------
 st.subheader("2.2 Accident Distribution by Model Year and Severity (Stacked Bar)")
