@@ -21,7 +21,7 @@ st.title("Visualization 1: Autonomous Vehicle Accident Analysis")
 st.markdown("---")
 st.header("📊 Dataset Summary")
 
-# ---- Custom CSS to center metrics ----
+# ---- Custom CSS for clean, centered, and readable metrics ----
 st.markdown("""
     <style>
     [data-testid="stMetric"] {
@@ -31,17 +31,22 @@ st.markdown("""
         padding: 20px;
         text-align: center;
         justify-content: center;
+        box-shadow: 0 1px 2px rgba(0,0,0,0.05);
     }
     [data-testid="stMetricLabel"] {
         text-align: center !important;
-        font-weight: 600 !important;
-        color: #2C3E50 !important;
+        font-size: 16px !important;
+        font-weight: 700 !important;
+        color: #1E293B !important;  /* dark navy for readability */
+        margin-bottom: 6px !important;
+        text-shadow: 0 0 1px rgba(255,255,255,0.3);
     }
     [data-testid="stMetricValue"] {
         text-align: center !important;
-        font-size: 24px !important;
-        font-weight: bold !important;
+        font-size: 26px !important;
+        font-weight: 800 !important;
         color: #000000 !important;
+        line-height: 1.2em !important;
     }
     </style>
 """, unsafe_allow_html=True)
@@ -59,7 +64,7 @@ with st.container():
     # Display dataset preview
     st.dataframe(df.head(), use_container_width=True)
 
-    # ---- Metrics Summary (Centered Style) ----
+    # ---- Metrics Summary ----
     col1, col2, col3, col4 = st.columns(4)
 
     total_records = len(df)
@@ -76,7 +81,7 @@ with st.container():
     col2.metric(
         label="Unique Severity Levels",
         value=unique_severity,
-        help="Number of distinct severity categories found (POD (Fatal), Serious, Moderate, Minor).",
+        help="Number of distinct severity categories found (e.g., Fatal, Serious, Minor).",
         border=True
     )
     col3.metric(
@@ -91,6 +96,7 @@ with st.container():
         help="Mean posted speed limit for all accident locations.",
         border=True
     )
+
 
 
 # ---- Objectives Section ----
