@@ -34,8 +34,8 @@ st.markdown("---")
 st.header("Visualizations")
 
  # ----------------- 3.1 Violin Plot: Speed Distribution by Weather -----------------
-  st.subheader("3.1 Violin Plot: Speed Distribution by Weather")
-  if "Weather" in df.columns and "SV Precrash Speed (MPH)" in df.columns:
+st.subheader("3.1 Violin Plot: Speed Distribution by Weather")
+if "Weather" in df.columns and "SV Precrash Speed (MPH)" in df.columns:
         fig = px.violin(
             df,
             x='Weather',
@@ -56,12 +56,12 @@ st.header("Visualizations")
         st.markdown(
             "**Interpretation:** The violin plot shows how pre-crash speeds differ across weather conditions. Wider areas indicate higher data concentration, revealing risky speed patterns under adverse weather."
         )
-    else:
-        st.warning("Required columns for Violin Plot not found.")
+else:
+    st.warning("Required columns for Violin Plot not found.")
 
     # ----------------- 3.2 Pie Chart: Accident Severity by Collision Type -----------------
-    st.subheader("3.2 Pie Chart: Accident Severity by Collision Type")
-    if "Crash_With" in df.columns and "Severity" in df.columns:
+st.subheader("3.2 Pie Chart: Accident Severity by Collision Type")
+if "Crash_With" in df.columns and "Severity" in df.columns:
         crash_severity_counts = df.groupby(['Crash_With', 'Severity']).size().reset_index(name='Count')
         fig = px.pie(
             crash_severity_counts,
@@ -80,16 +80,16 @@ st.header("Visualizations")
         st.markdown(
             "**Interpretation:** The pie chart shows the proportion of incidents by collision type. Larger segments indicate more frequent collision categories, revealing key accident risk sources."
         )
-    else:
-        st.warning("Required columns for Pie Chart not found.")
+else:
+    st.warning("Required columns for Pie Chart not found.")
 
 
     # 3.3 Radar Chart: Environmental Factors by Weather
-    st.subheader("3.3 Radar Chart: Environmental Factors by Weather")
+st.subheader("3.3 Radar Chart: Environmental Factors by Weather")
 
     # ---- Check required columns exist ----
-    required_cols = ['Weather', 'Roadway_Type', 'Roadway_Surface', 'Lighting']
-    if all(col in df.columns for col in required_cols):
+required_cols = ['Weather', 'Roadway_Type', 'Roadway_Surface', 'Lighting']
+if all(col in df.columns for col in required_cols):
 
         # Aggregate data
         radar_data = df.groupby(required_cols).size().reset_index(name='Incident_Count')
@@ -141,5 +141,5 @@ st.header("Visualizations")
             "**Interpretation:** This radar chart compares how road type, surface, and lighting influence accident occurrences under different weather conditions. Larger areas indicate higher incident counts."
         )
 
-    else:
-        st.warning(f"Required columns {required_cols} not found in the dataset.")
+else:
+    st.warning(f"Required columns {required_cols} not found in the dataset.")
