@@ -148,7 +148,7 @@ for col, (label, value, help_text) in zip(cols, metrics):
             <div style="font-size:16px; font-weight:700; color:#1E293B; margin-bottom:8px; line-height:1.2em;">
                 {label} <span title="{help_text}" style="cursor:help; color:#2563EB;">🛈</span>
             </div>
-            <div style="font-size:26px; font-weight:800; color:#000;">{value}</div>
+            <div style="font-size:23px; font-weight:800; color:#000;">{value}</div>
         </div>
     """, unsafe_allow_html=True)
 
