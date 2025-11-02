@@ -105,16 +105,22 @@ st.subheader("3.3 Radar Chart: Environmental Factors by Weather")
 
 required_cols = ['Weather', 'Roadway_Type', 'Roadway_Surface', 'Lighting']
 if all(col in df.columns for col in required_cols):
+
+    # Aggregate data
     radar_data = df.groupby(required_cols).size().reset_index(name='Incident_Count')
+
+    # Select top 3 weather conditions
     top_weather = radar_data.groupby('Weather')['Incident_Count'].sum().nlargest(3).index
     radar_data = radar_data[radar_data['Weather'].isin(top_weather)]
 
+    # Radar chart axes
     axes = ['Roadway_Type', 'Roadway_Surface', 'Lighting']
     traces = []
-    for i, weather in enumerate(top_weather):
+
+    for weather in top_weather:
         subset = radar_data[radar_data['Weather'] == weather]
         values = [subset.groupby(axis)['Incident_Count'].sum().max() if not subset.empty else 0 for axis in axes]
-        values.append(values[0])
+        values.append(values[0])  # Close the radar loop
 
         traces.append(go.Scatterpolar(
             r=values,
@@ -124,13 +130,15 @@ if all(col in df.columns for col in required_cols):
             opacity=0.7
         ))
 
+    # Plot
     fig = go.Figure(data=traces)
     fig.update_layout(
         title='Environmental Factors by Weather',
-        color_discrete_sequence=['#FF0000','#FF7F00','#FFFF00','#00FF00','#00FFFF','#0000FF','#FF00FF'],
         polar=dict(radialaxis=dict(visible=True)),
-        showlegend=True
+        showlegend=True,
+        color_discrete_sequence=['#FF0000', '#FF7F00', '#FFFF00', '#00FF00', '#00FFFF', '#0000FF', '#FF00FF']  # ✅ Applied
     )
+
     st.plotly_chart(fig, use_container_width=True)
 
     st.info("**Insight:** Clear weather shows more incidents on urban roads with dry surfaces and proper lighting. "
