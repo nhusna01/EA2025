@@ -94,7 +94,7 @@ if "Severity" in df.columns and "SV Precrash Speed (MPH)" in df.columns:
         color_discrete_sequence=['#FF0000','#FF7F00','#FFD700','#32CD32','#00FFFF','#0000FF','#FF00FF']
     )
     fig1.update_traces(marker=dict(line=dict(width=1, color='black')), opacity=1)
-    fig1.update_layout(title_font=dict(size=20, color='black', family="Arial Black"), plot_bgcolor='white')
+    fig1.update_layout(title_font=dict(size=18, color='black', family="Arial Black"), plot_bgcolor='white')
     st.plotly_chart(fig1, use_container_width=True)
     st.markdown("**Interpretation:** Higher pre-crash speeds are associated with greater accident severity. Bold colors highlight differences between severity levels.")
 else:
@@ -120,7 +120,7 @@ if "Model Year" in df.columns and "Severity" in df.columns:
         xaxis_title='Model Year',
         yaxis_title='Number of Incidents',
         plot_bgcolor='white',
-        title_font=dict(size=20, color='black', family='Arial Black')
+        title_font=dict(size=18, color='black', family='Arial Black')
     )
     st.plotly_chart(fig2, use_container_width=True)
     st.markdown("**Interpretation:** This stacked bar chart shows how accident severity varies across vehicle model years. It highlights which model years have higher counts and severe incidents.")
@@ -145,7 +145,7 @@ if "Air_Bag" in df.columns and "Severity" in df.columns:
         xaxis_title='Air Bag Deployment Status',
         yaxis_title='Severity',
         plot_bgcolor='white',
-        title_font=dict(size=22, family='Arial Black', color='black'),
+        title_font=dict(size=18, family='Arial Black', color='black'),
         yaxis=dict(showgrid=True, gridcolor='lightgray'),
         xaxis=dict(showgrid=True, gridcolor='lightgray'),
         showlegend=True,
