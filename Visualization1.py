@@ -21,6 +21,31 @@ st.title("Visualization 1: Autonomous Vehicle Accident Analysis")
 st.markdown("---")
 st.header("📊 Dataset Summary")
 
+# ---- Custom CSS to center metrics ----
+st.markdown("""
+    <style>
+    [data-testid="stMetric"] {
+        background-color: #F8F9FA;
+        border: 1px solid #DADCE0;
+        border-radius: 10px;
+        padding: 20px;
+        text-align: center;
+        justify-content: center;
+    }
+    [data-testid="stMetricLabel"] {
+        text-align: center !important;
+        font-weight: 600 !important;
+        color: #2C3E50 !important;
+    }
+    [data-testid="stMetricValue"] {
+        text-align: center !important;
+        font-size: 24px !important;
+        font-weight: bold !important;
+        color: #000000 !important;
+    }
+    </style>
+""", unsafe_allow_html=True)
+
 with st.container():
     st.markdown(
         """
@@ -31,10 +56,10 @@ with st.container():
         unsafe_allow_html=True
     )
 
-    # Display preview of dataset
+    # Display dataset preview
     st.dataframe(df.head(), use_container_width=True)
 
-    # ---- Metrics Summary (PLO-style layout) ----
+    # ---- Metrics Summary (Centered Style) ----
     col1, col2, col3, col4 = st.columns(4)
 
     total_records = len(df)
@@ -51,7 +76,7 @@ with st.container():
     col2.metric(
         label="Unique Severity Levels",
         value=unique_severity,
-        help="Number of distinct severity categories found (e.g., Fatal, Serious, Minor).",
+        help="Number of distinct severity categories found (POD (Fatal), Serious, Moderate, Minor).",
         border=True
     )
     col3.metric(
