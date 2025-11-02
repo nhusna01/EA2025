@@ -93,7 +93,7 @@ st.markdown(
     <h3 style='font-size:26px; color_discrete_sequence=[
             '#FF0000', '#FF7F00', '#FFD700', '#32CD32', '#00FFFF', '#0000FF', '#FF00FF'
         ]; font-weight:600;'>
-        Visualization 2: Evaluate Safety Performance Across Manufacturers, Models, and Operational Entities
+        Visualization 2: Autonomous Vehicle Accident Analysis
     </h3>
     """,
     unsafe_allow_html=True
