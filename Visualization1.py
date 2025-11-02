@@ -89,10 +89,9 @@ st.markdown("""
 
 
 # ---- Page Title ----
-st.title("Visualization 1: Autonomous Vehicle Accident Analysis")
-st.markdown(
+
     """
-    <h3 style='font-size:24px; color:#2E86C1; font-weight:600;'>
+    <h3 style='font-size:26px; color:#2E86C1; font-weight:600;'>
         Visualization 1: Autonomous Vehicle Accident Analysis
     </h3>
     """,
