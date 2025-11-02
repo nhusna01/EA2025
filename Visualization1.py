@@ -5,6 +5,9 @@ import plotly.express as px
 # ---- Streamlit Page Setup ----
 st.set_page_config(page_title="AV Accident Dashboard", layout="wide")
 
+st.title("AV Accident Dashboard")
+st.markdown("---")
+
 # ---- Load Dataset Section ----
 st.markdown("---")
 st.header("Load Dataset")
