@@ -14,6 +14,56 @@ def load_data(url):
 csv_url = "https://raw.githubusercontent.com/nhusna01/EA2025/main/processed_av_accident_data.csv"
 df = load_data(csv_url)
 
+# ---- Objectives Section ----
+import streamlit as st
+
+st.markdown("---")
+st.header("Objectives")
+
+st.markdown("""
+This dashboard aims to **analyze Autonomous Vehicle (AV) accident data** and uncover key insights into accident patterns and contributing factors.
+""")
+
+# --- Interactive Objective Cards ---
+col1, col2, col3 = st.columns(3)
+
+with col1:
+    with st.expander("**Objective 1**", expanded=True):
+        st.markdown("""
+        **Analyze the relationship between pre-crash speed and accident severity.**  
+        Explore how varying speeds contribute to the severity levels of autonomous vehicle crashes.
+        """)
+
+with col2:
+    with st.expander("**Objective 2**", expanded=True):
+        st.markdown("""
+        **Examine the influence of lighting conditions on accident outcomes.**  
+        Understand how visibility factors, such as day, night, or dusk, affect crash frequency.
+        """)
+
+with col3:
+    with st.expander("**Objective 3**", expanded=True):
+        st.markdown("""
+        **Identify correlations between vehicle speed, mileage, and posted speed limits.**  
+        Detect operational patterns that may reveal safety or performance risks.
+        """)
+
+# Optional: Subtle styling
+st.markdown("""
+<style>
+    .stExpander {
+        background-color: #f8f9fa;
+        border-radius: 15px;
+        padding: 10px;
+        box-shadow: 0px 2px 8px rgba(0,0,0,0.1);
+    }
+    .stExpander:hover {
+        background-color: #f0f2f6;
+    }
+</style>
+""", unsafe_allow_html=True)
+
+
 # ---- Page Title ----
 st.title("Visualization 1: Autonomous Vehicle Accident Analysis")
 
@@ -52,19 +102,6 @@ for col, (label, value, help_text) in zip(cols, metrics):
     """, unsafe_allow_html=True)
 
 
-
-# ---- Objectives Section ----
-st.markdown("---")
-st.header("Objectives")
-
-st.markdown("""
-This dashboard aims to **analyze Autonomous Vehicle (AV) accident data** to uncover meaningful insights on accident trends.
-
-**Key objectives:**
-1. Examine the relationship between **pre-crash speed** and **accident severity**.  
-2. Understand how **lighting conditions** influence accident outcomes.  
-3. Identify correlations between **vehicle speed, mileage, and posted speed limits**.
-""")
 
 # ---- Visualization Section ----
 st.markdown("---")
