@@ -5,14 +5,51 @@ import plotly.express as px
 # ---- Streamlit Page Setup ----
 st.set_page_config(page_title="AV Accident Dashboard", layout="wide")
 
-# ---- Load Dataset ----
-@st.cache_data
-def load_data(url):
-    return pd.read_csv(url)
+# ---- Load Dataset Section ----
+import streamlit as st
+import pandas as pd
 
-# Load data directly from GitHub
-csv_url = "https://raw.githubusercontent.com/nhusna01/EA2025/main/processed_av_accident_data.csv"
-df = load_data(csv_url)
+st.markdown("---")
+st.header("Load Dataset")
+
+# Option 1: Upload your own CSV file
+uploaded_file = st.file_uploader("Upload your AV Accident dataset (.csv)", type=["csv"])
+
+# Option 2: Use default dataset if no file uploaded
+default_path = "AV_Accidents.csv"  # change to your actual file path
+
+if uploaded_file is not None:
+    # Read uploaded dataset
+    df = pd.read_csv(uploaded_file)
+    st.success("✅ Dataset uploaded successfully!")
+elif st.checkbox("Use default dataset"):
+    try:
+        df = pd.read_csv(default_path)
+        st.success("✅ Default dataset loaded successfully!")
+    except FileNotFoundError:
+        st.error("⚠️ Default dataset not found. Please upload a CSV file.")
+        df = None
+else:
+    st.info("Please upload a dataset file or select the checkbox to use the default dataset.")
+    df = None
+
+# Display dataset preview
+if df is not None:
+    st.markdown("### 🔍 Data Preview")
+    st.dataframe(df.head(), use_container_width=True)
+
+
+# Optional styling for neat layout
+st.markdown("""
+<style>
+    [data-testid="stDataFrame"] {
+        border: 1px solid #e3e3e3;
+        border-radius: 10px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+</style>
+""", unsafe_allow_html=True)
+
 
 # ---- Objectives Section ----
 import streamlit as st
