@@ -106,41 +106,41 @@ st.subheader("3.3 Radar Chart: Environmental Factors by Weather")
 required_cols = ['Weather', 'Roadway_Type', 'Roadway_Surface', 'Lighting']
 if all(col in df.columns for col in required_cols):
 
-    # Aggregate data
     radar_data = df.groupby(required_cols).size().reset_index(name='Incident_Count')
-
-    # Select top 3 weather conditions
     top_weather = radar_data.groupby('Weather')['Incident_Count'].sum().nlargest(3).index
     radar_data = radar_data[radar_data['Weather'].isin(top_weather)]
 
-    # Radar chart axes
     axes = ['Roadway_Type', 'Roadway_Surface', 'Lighting']
     traces = []
+    
+    # Custom Colors
+    custom_colors = ['#FF0000', '#FF7F00', '#FFFF00', '#00FF00', '#00FFFF', '#0000FF', '#FF00FF']
 
-    for weather in top_weather:
+    for i, weather in enumerate(top_weather):
         subset = radar_data[radar_data['Weather'] == weather]
         values = [subset.groupby(axis)['Incident_Count'].sum().max() if not subset.empty else 0 for axis in axes]
-        values.append(values[0])  # Close the radar loop
+        values.append(values[0])
 
         traces.append(go.Scatterpolar(
             r=values,
             theta=axes + [axes[0]],
             fill='toself',
             name=weather,
-            opacity=0.7
+            opacity=0.7,
+            line=dict(color=custom_colors[i])  # Fix: Assign color directly to each trace
         ))
 
-    # Plot
     fig = go.Figure(data=traces)
     fig.update_layout(
         title='Environmental Factors by Weather',
         polar=dict(radialaxis=dict(visible=True)),
-        showlegend=True,
-        color_discrete_sequence=['#FF0000', '#FF7F00', '#FFFF00', '#00FF00', '#00FFFF', '#0000FF', '#FF00FF']  # ✅ Applied
+        showlegend=True
     )
 
     st.plotly_chart(fig, use_container_width=True)
 
     st.info("**Insight:** Clear weather shows more incidents on urban roads with dry surfaces and proper lighting. "
-            "Rainy conditions shift accidents toward wet surfaces and lower visibility areas. "
-            "This indicates weather significantly alters how road and lighting factors contribute to accidents.")
+            "Rainy conditions shift accidents toward wet surfaces and lower visibility areas, showing how weather "
+            "influences the relationship between roadway and lighting conditions.")
+
+
