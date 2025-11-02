@@ -158,108 +158,95 @@ for col, (label, value, help_text) in zip(cols, metrics):
 st.markdown("---")
 st.header("Visualizations")
 
-# ---- Visualization: Make Distribution by Severity (Histogram + Box) ----
-st.subheader("2.1 Make Distribution by Severity (Histogram with Box Plot)")
-
-# Check if required columns exist
-required_cols = ['Make', 'Severity']
-if all(col in df.columns for col in required_cols):
-    fig = px.histogram(
+# --- 2.1 Histogram + Box Plot: Make Distribution by Severity ---
+st.subheader("2.1 Distribution of Vehicle Makes by Accident Severity")
+if "Make" in df.columns and "Severity" in df.columns:
+    fig1 = px.histogram(
         df,
-        x='Make',
-        color='Severity',
-        marginal='box',  # Optional box plot above
-        title='Make Distribution by Severity',
+        x="Make",
+        color="Severity",
+        marginal="box",
+        title="Distribution of Vehicle Makes by Severity",
         hover_data=['Make', 'Model', 'Model Year', 'Mileage', 'Cluster ID', 'Severity'],
         color_discrete_sequence=[
-            '#FF0000', '#FF7F00', '#FFFF00', '#00FF00', '#00FFFF', '#0000FF', '#FF00FF'
+            '#FF0000', '#FF7F00', '#FFD700', '#32CD32', '#00FFFF', '#0000FF', '#FF00FF'
         ]
     )
-
-    # Layout improvements
-    fig.update_layout(
-        plot_bgcolor='#FFFFFF',
-        title_font=dict(size=22, color='black', family='Arial Black'),
-        xaxis_title='Make',
+    fig1.update_layout(
+        title_font=dict(size=18, color='black', family="Arial Black"),
+        xaxis_title='Vehicle Make',
         yaxis_title='Number of Incidents',
-        xaxis=dict(title_font=dict(size=16, color='black'),
-                   tickfont=dict(size=12, color='black')),
-        yaxis=dict(title_font=dict(size=16, color='black'),
-                   tickfont=dict(size=12, color='black')),
-        legend_title_font=dict(size=14, color='black'),
-        legend_font=dict(size=12),
+        plot_bgcolor='white',
+        xaxis=dict(showgrid=True, gridcolor='lightgray', tickangle=45),
+        yaxis=dict(showgrid=True, gridcolor='lightgray'),
         margin=dict(l=50, r=30, t=80, b=50)
     )
-
-    # Display in Streamlit
-    st.plotly_chart(fig, use_container_width=True)
-
-    # Add interpretation text
-    st.markdown("""
-    <div style='background-color:#F8F9FA; padding:15px; border-radius:10px; border:1px solid #DDD;'>
-        <span style='color:black; font-weight:bold; font-size:14pt;'>
-        **Interpretation:** The histogram shows the distribution of incidents across different vehicle makes, 
-        colored by severity. This allows us to see which makes are involved in the most incidents and how severity 
-        is distributed among them.
-        </span>
-    </div>
-    """, unsafe_allow_html=True)
+    st.plotly_chart(fig1, use_container_width=True)
+    st.info("**Insight:** The histogram shows which vehicle makes are most frequently involved in incidents and how severity levels vary among them. Certain manufacturers display higher accident frequencies or more severe outcomes, suggesting potential performance or operational variations.")
 else:
-    st.warning("Required columns ('Make', 'Severity') not found in dataset.")
+    st.warning("Columns 'Make' or 'Severity' not found in dataset.")
 
 
-# ----------------- 2.2 Stacked Bar: Accident Distribution by Model Year -----------------
-st.subheader("2.2 Accident Distribution by Model Year and Severity (Stacked Bar)")
+# --- 2.2 Stacked Bar Chart: Accident Distribution by Model Year and Severity ---
+st.subheader("2.2 Accident Distribution by Model Year and Severity")
 if "Model Year" in df.columns and "Severity" in df.columns:
     df_counts = df.groupby(['Model Year', 'Severity']).size().reset_index(name='Count')
     df_counts['Model Year'] = df_counts['Model Year'].astype(str)
     df_counts = df_counts.sort_values('Model Year')
-    
+
     fig2 = px.bar(
         df_counts,
         x='Model Year',
         y='Count',
         color='Severity',
         barmode='relative',
-        color_discrete_sequence=['#FF0000','#FF7F00','#FFFF00','#00FF00','#00FFFF','#0000FF','#FF00FF'],
-        title='Accident Distribution by Model Year and Severity'
+        title='Accident Distribution by Model Year and Severity',
+        color_discrete_sequence=[
+            '#FF0000', '#FF7F00', '#FFD700', '#32CD32', '#00FFFF', '#0000FF', '#FF00FF'
+        ]
     )
+    fig2.update_traces(text=df_counts['Count'], textposition='outside')
     fig2.update_layout(
+        plot_bgcolor='white',
+        title_font=dict(size=18, color='black', family="Arial Black"),
         xaxis_title='Model Year',
         yaxis_title='Number of Incidents',
-        plot_bgcolor='white',
-        title_font=dict(size=18, color='black', family='Arial Black')
+        xaxis=dict(showgrid=True, gridcolor='lightgray'),
+        yaxis=dict(showgrid=True, gridcolor='lightgray')
     )
     st.plotly_chart(fig2, use_container_width=True)
-    st.markdown("**Interpretation:** This stacked bar chart shows how accident severity varies across vehicle model years. It highlights which model years have higher counts and severe incidents.")
+    st.info("**Insight:** This stacked bar chart highlights how accident severity differs across vehicle model years. Certain years show higher frequencies of severe incidents, indicating that production year may influence vehicle reliability and safety performance.")
 else:
-    st.warning("Required columns for Stacked Bar not found.")
+    st.warning("Columns 'Model Year' or 'Severity' not found in dataset.")
 
-# ----------------- 2.3 Violin Plot: Severity by Air Bag Deployment -----------------
-st.subheader("2.3 Severity Distribution by Air Bag Deployment (Violin Plot)")
+
+# --- 2.3 Density Plot: Severity by Air Bag Deployment ---
+st.subheader("2.3 Severity Distribution by Air Bag Deployment Status")
 if "Air_Bag" in df.columns and "Severity" in df.columns:
-    fig3 = px.violin(
+    fig3 = px.density(
         df,
-        x='Air_Bag',
-        y='Severity',
-        color='Air_Bag',
-        color_discrete_sequence=['#FF0000','#FF7F00','#FFFF00','#00FF00','#00FFFF','#0000FF','#FF00FF'],
+        x="Air_Bag",
+        y="Severity",
+        color="Air_Bag",
         box=True,
-        points='all',
-        title='Severity Distribution by Air Bag Deployment'
+        points="all",
+        title="Severity Distribution by Air Bag Deployment",
+        color_discrete_sequence=[
+            '#FF0000', '#FF7F00', '#FFD700', '#32CD32', '#00FFFF', '#0000FF', '#FF00FF'
+        ]
     )
-    fig3.update_traces(opacity=0.8, line=dict(width=1.5), marker=dict(size=4, opacity=0.6))
+    fig3.update_traces(opacity=0.85, line=dict(width=1.5), marker=dict(size=4, opacity=0.6))
     fig3.update_layout(
+        title_font=dict(size=18, color='black', family="Arial Black"),
+        plot_bgcolor='white',
         xaxis_title='Air Bag Deployment Status',
         yaxis_title='Severity',
-        plot_bgcolor='white',
-        title_font=dict(size=18, family='Arial Black', color='black'),
-        yaxis=dict(showgrid=True, gridcolor='lightgray'),
         xaxis=dict(showgrid=True, gridcolor='lightgray'),
+        yaxis=dict(showgrid=True, gridcolor='lightgray'),
         showlegend=True,
-        legend_title_text='Air Bag Status'
+        legend_title_text='Air Bag Deployment'
     )
     st.plotly_chart(fig3, use_container_width=True)
-    st.markdown("**Interpretation:** This violin plot shows severity distribution for vehicles with and without airbags. Wider areas indicate higher concentration of incidents for each severity level.")
+    st.info("**Insight:** The density plot visualizes how accident severity distributes between vehicles with and without airbag deployment. Wider sections show higher concentrations of incidents, indicating that airbag activation relates closely to the severity of collisions.")
 else:
-    st.warning("Required columns for Violin Plot not found.")
+    st.warning("Columns 'Air_Bag' or 'Severity' not found in dataset.")
