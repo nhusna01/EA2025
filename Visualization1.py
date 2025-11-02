@@ -6,10 +6,6 @@ import plotly.express as px
 st.set_page_config(page_title="AV Accident Dashboard", layout="wide")
 
 # ---- Load Dataset Section ----
-# ---- Load Dataset Section ----
-import streamlit as st
-import pandas as pd
-
 st.markdown("---")
 st.header("Load Dataset")
 
