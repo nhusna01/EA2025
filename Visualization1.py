@@ -19,7 +19,7 @@ st.title("Visualization 1: Autonomous Vehicle Accident Analysis")
 
 # ---- Dataset Summary ----
 st.markdown("---")
-st.header("📊 Dataset Summary")
+st.header("Dataset Summary")
 
 # ---- Dataset preview ----
 with st.container():
@@ -33,7 +33,7 @@ with st.container():
     )
     st.dataframe(df.head(), use_container_width=True)
 
-# ---- Custom Metrics ----
+# ---- Custom Metrics with 'help' ----
 total_records = len(df)
 unique_severity = df["Severity"].nunique() if "Severity" in df.columns else "N/A"
 avg_speed = f"{df['SV Precrash Speed (MPH)'].mean():.2f}" if "SV Precrash Speed (MPH)" in df.columns else "N/A"
@@ -59,10 +59,9 @@ for col, (label, value, help_text) in zip(cols, metrics):
             display:flex;
             flex-direction:column;
             justify-content:center;
-        ">
+        " title="{help_text}">
             <div style="font-size:16px; font-weight:700; color:#1E293B; margin-bottom:8px; line-height:1.2em;">{label}</div>
             <div style="font-size:26px; font-weight:800; color:#000;">{value}</div>
-            <div style="font-size:12px; color:#555; margin-top:6px;">{help_text}</div>
         </div>
     """, unsafe_allow_html=True)
 
