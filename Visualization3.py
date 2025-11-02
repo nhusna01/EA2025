@@ -34,8 +34,8 @@ st.markdown("---")
 st.header("Visualizations")
 
  # ----------------- 3.1 Violin Plot: Speed Distribution by Weather -----------------
-    st.subheader("3.1 Violin Plot: Speed Distribution by Weather")
-    if "Weather" in df.columns and "SV Precrash Speed (MPH)" in df.columns:
+  st.subheader("3.1 Violin Plot: Speed Distribution by Weather")
+  if "Weather" in df.columns and "SV Precrash Speed (MPH)" in df.columns:
         fig = px.violin(
             df,
             x='Weather',
