@@ -290,9 +290,6 @@ elif st.session_state.page == "Visualization 3":
         st.warning("Required columns for Pie Chart not found.")
 
 
-   elif st.session_state.page == "Visualization 3":
-    st.title("Visualization 3: Environmental and Collision Analysis")
-
     # 3.3 Radar Chart: Environmental Factors by Weather
     st.subheader("3.3 Radar Chart: Environmental Factors by Weather")
 
