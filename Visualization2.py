@@ -90,7 +90,9 @@ st.markdown("""
 st.markdown("---")
 st.markdown(
     """
-    <h3 style='font-size:26px; color:#2E86C1; font-weight:600;'>
+    <h3 style='font-size:26px; color_discrete_sequence=[
+            '#FF0000', '#FF7F00', '#FFD700', '#32CD32', '#00FFFF', '#0000FF', '#FF00FF'
+        ]; font-weight:600;'>
         Visualization 2: Evaluate Safety Performance Across Manufacturers, Models, and Operational Entities
     </h3>
     """,
