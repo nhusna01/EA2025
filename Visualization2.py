@@ -58,17 +58,17 @@ with col1:
         """)
 
 with col2:
-    with st.expander( **Model and Model Year Evaluation**", expanded=True):
+    with st.expander("**Model and Model Year Evaluation**", expanded=True):
         st.markdown("""
         **Examine performance variations between models and production years.**  
         Detect safety improvements or regressions across AV generations.
         """)
 
 with col3:
-    with st.expander(" **Airbag Deployment**", expanded=True):
+    with st.expander("**Airbag Deployment**", expanded=True):
         st.markdown("""
-        **Evaluate the role of airbag deployment during a collision whenever a traffic accident occurs.**  
-        Understand how airbag deployment manages to influence severity levels.
+        **Evaluate the role of airbag deployment during a collision.**  
+        Understand how airbag deployment influences severity levels.
         """)
 
 # --- Optional Styling for Expanders ---
