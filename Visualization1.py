@@ -17,23 +17,7 @@ df = load_data(csv_url)
 # ---- Page Title ----
 st.title("Visualization 1: Autonomous Vehicle Accident Analysis")
 
-# ---- Dataset Summary ----
-st.markdown("---")
-st.header("Dataset Summary")
-
-# ---- Dataset preview ----
-with st.container():
-    st.markdown(
-        """
-        <div style="background-color:#F8F9FA; padding:20px; border-radius:10px; border:1px solid #DDD;">
-        <h4 style="color:#2C3E50;">Data Overview</h4>
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
-    st.dataframe(df.head(), use_container_width=True)
-
-# ---- Custom Metrics with 'help' ----
+# ---- Custom Metrics with 'help' icon ----
 total_records = len(df)
 unique_severity = df["Severity"].nunique() if "Severity" in df.columns else "N/A"
 avg_speed = f"{df['SV Precrash Speed (MPH)'].mean():.2f}" if "SV Precrash Speed (MPH)" in df.columns else "N/A"
@@ -59,8 +43,10 @@ for col, (label, value, help_text) in zip(cols, metrics):
             display:flex;
             flex-direction:column;
             justify-content:center;
-        " title="{help_text}">
-            <div style="font-size:16px; font-weight:700; color:#1E293B; margin-bottom:8px; line-height:1.2em;">{label}</div>
+        ">
+            <div style="font-size:16px; font-weight:700; color:#1E293B; margin-bottom:8px; line-height:1.2em;">
+                {label} <span title="{help_text}" style="cursor:help; color:#2563EB;">ℹ️</span>
+            </div>
             <div style="font-size:26px; font-weight:800; color:#000;">{value}</div>
         </div>
     """, unsafe_allow_html=True)
