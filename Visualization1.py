@@ -12,30 +12,17 @@ import pandas as pd
 st.markdown("---")
 st.header("Load Dataset")
 
-# Option 1: Upload your own CSV file
-uploaded_file = st.file_uploader("Upload your AV Accident dataset (.csv)", type=["csv"])
+# ---- Dataset URL ----
+DATA_URL = "https://raw.githubusercontent.com/nhusna01/EA2025/main/processed_av_accident_data.csv"
 
-# Option 2: Use default dataset if no file uploaded
-default_path = "AV_Accidents.csv"  # change to your actual file path
-
-if uploaded_file is not None:
-    # Read uploaded dataset
-    df = pd.read_csv(uploaded_file)
-    st.success("✅ Dataset uploaded successfully!")
-elif st.checkbox("Use default dataset"):
-    try:
-        df = pd.read_csv(default_path)
-        st.success("✅ Default dataset loaded successfully!")
-    except FileNotFoundError:
-        st.error("⚠️ Default dataset not found. Please upload a CSV file.")
-        df = None
-else:
-    st.info("Please upload a dataset file or select the checkbox to use the default dataset.")
-    df = None
+# ---- Load the dataset ----
+try:
+    df = pd.read_csv(DATA_URL)
+    st.success("Dataset loaded successfully from GitHub!"
 
 # Display dataset preview
 if df is not None:
-    st.markdown("### 🔍 Data Preview")
+    st.markdown("Data Preview")
     st.dataframe(df.head(), use_container_width=True)
 
 
