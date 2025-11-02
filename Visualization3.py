@@ -70,9 +70,9 @@ common_collision = df["Crash_With"].value_counts().idxmax() if "Crash_With" in d
 # Display metrics in cards
 metrics = [
     ("Total Serious Accidents", total_serious, "Total number of accidents classified as serious."),
-    ("Most Common Weather", most_common_weather, "Weather condition where most accidents occurred."),
-    ("Most Frequent Severity", common_severity, "Severity level with the highest number of cases."),
-    ("Most Common Collision Type", common_collision, "Type of collision that occurred most frequently."),
+    ("Most Common Weather", most_common_weather, "Weather condition where most accidents occurred: Clear."),
+    ("Most Frequent Severity", common_severity, "Severity level with the highest number of cases: Property Damage Only (POD)."),
+    ("Most Common Collision Type", common_collision, "Type of collision that occurred most frequently: Pedestrian Collision (PD)."),
 ]
 
 cols = st.columns(4)
