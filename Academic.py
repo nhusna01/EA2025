@@ -12,7 +12,7 @@ st.markdown("Upload and view student coursework data.")
 # -------------------------------
 st.subheader(" Upload Coursework File")
 uploaded_file = st.file_uploader(
-    "Upload CSV file (must contain student coursework data)",
+    "Upload CSV file",
     type=["csv"]
 )
 
