@@ -176,6 +176,3 @@ elif st.session_state.page == "Visualization 2":
     else:
         st.warning("Required columns for Violin Plot not found.")
 
-    # ----------------- Back to Menu -----------------
-    st.button("⬅ Back to Menu", on_click=lambda: go_to("Menu"))
-
