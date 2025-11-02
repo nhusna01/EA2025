@@ -19,7 +19,7 @@ st.title("Visualization 1: AV Accident Analysis")
 
 # ---- Dataset Summary ----
 st.markdown("---")
-st.header("Dataset Summary")
+st.header("📊 Dataset Summary")
 
 with st.container():
     # Separate summary box
@@ -50,7 +50,7 @@ with st.container():
 
 # ---- Objectives Section ----
 st.markdown("---")
-st.header("Objectives")
+st.header("🎯 Objectives")
 
 st.markdown("""
 This dashboard aims to **analyze Autonomous Vehicle (AV) accident data** to uncover meaningful insights on accident trends.
@@ -63,7 +63,7 @@ This dashboard aims to **analyze Autonomous Vehicle (AV) accident data** to unco
 
 # ---- Visualization Section ----
 st.markdown("---")
-st.header("Visualizations")
+st.header("📈 Visualizations")
 
 # --- 1.1 Box Plot: Pre-crash Speed vs Severity ---
 st.subheader("1.1 Pre-crash Speed vs Severity")
@@ -84,7 +84,7 @@ if "Severity" in df.columns and "SV Precrash Speed (MPH)" in df.columns:
         plot_bgcolor='white'
     )
     st.plotly_chart(fig1, use_container_width=True)
-    st.info(" **Insight:** Higher pre-crash speeds are associated with greater accident severity.")
+    st.info("📌 **Insight:** Higher pre-crash speeds are associated with greater accident severity.")
 else:
     st.warning("Columns 'Severity' or 'SV Precrash Speed (MPH)' not found in dataset.")
 
@@ -113,7 +113,7 @@ if "Severity" in df.columns and "Lighting" in df.columns:
         yaxis=dict(showgrid=True, gridcolor='lightgray')
     )
     st.plotly_chart(fig2, use_container_width=True)
-    st.info("**Insight:** Lighting conditions influence accident severity — poor visibility often leads to more severe outcomes.")
+    st.info("📌 **Insight:** Lighting conditions influence accident severity — poor visibility often leads to more severe outcomes.")
 else:
     st.warning("Columns 'Severity' or 'Lighting' not found in dataset.")
 
@@ -137,6 +137,6 @@ if all(col in df.columns for col in required_cols):
         plot_bgcolor='white'
     )
     st.plotly_chart(fig3, use_container_width=True)
-    st.info( **Insight:** Stronger warm colors indicate stronger positive correlations between the numeric variables.")
+    st.info("📌 **Insight:** Stronger warm colors indicate stronger positive correlations between the numeric variables.")
 else:
     st.warning("Required numeric columns not found for correlation analysis.")
