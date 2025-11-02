@@ -54,7 +54,40 @@ with col2:
 with col3:
     with st.expander("**Objective 3.3**", expanded=True):
         st.markdown("**Evaluate how roadway type, lighting, and surface conditions interact with weather to influence accidents.**")
-        
+
+# =========================
+# ✅ Updated Key Metrics Section
+# =========================
+st.markdown("---")
+st.header("Key Metrics Overview")
+
+total_fatal = df[df["Severity"] == "Fatal"].shape[0] if "Severity" in df.columns else "N/A"
+most_common_weather = df["Weather"].mode()[0] if "Weather" in df.columns else "N/A"
+common_severity = df["Severity"].value_counts().idxmax() if "Severity" in df.columns else "N/A"
+airbag_percent = f"{(df['Airbag_Deployed'].value_counts(normalize=True).get('Yes', 0) * 100):.2f}%" if "Airbag_Deployed" in df.columns else "N/A"
+
+metrics = [
+    ("Total Fatal Accidents", total_fatal, "Total number of accidents resulting in fatalities."),
+    ("Most Common Weather", most_common_weather, "Weather condition where most accidents occurred."),
+    ("Most Frequent Severity", common_severity, "Severity level with highest number of cases."),
+    ("Airbag Deployment Rate", airbag_percent, "Percentage of accidents where airbags were deployed."),
+]
+
+# === Display in the same layout (5 cards with hover tooltip) ===
+cols = st.columns(4)
+for col, (label, value, help_text) in zip(cols, metrics):
+    col.markdown(f"""
+        <div style="background-color:#F8F9FA; border:1px solid #DDD; border-radius:10px;
+                    padding:15px; text-align:center;">
+            <div style="font-size:16px; font-weight:700;">
+                {label} <span title="{help_text}" style="cursor:help; color:#2563EB;">🛈</span>
+            </div>
+            <div style="font-size:26px; font-weight:800;">{value}</div>
+        </div>
+    """, unsafe_allow_html=True)
+
+
+
 # =========================
 # Visualizations Section
 # =========================
