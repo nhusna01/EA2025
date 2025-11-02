@@ -83,7 +83,7 @@ st.markdown("---")
 st.header("Visualizations")
 
 # ---- Visualization: Make Distribution by Severity (Histogram + Box) ----
-st.subheader("2.X Make Distribution by Severity (Histogram + Box Plot)")
+st.subheader("2.1 Make Distribution by Severity (Histogram with Box Plot)")
 
 # Check if required columns exist
 required_cols = ['Make', 'Severity']
