@@ -51,7 +51,7 @@ This dashboard aims to **evaluate the safety performance and reliability** of au
 col1, col2, col3 = st.columns(3)
 
 with col1:
-    with st.expander("**Objective 2.1 **", expanded=True):
+    with st.expander("**Objective 2.1**", expanded=True):
         st.markdown("""
         **Compare accident frequency and severity across different AV manufacturers.**  
         Identify which companies show higher reliability and lower incident rates.
