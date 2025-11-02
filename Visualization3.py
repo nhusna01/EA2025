@@ -30,108 +30,108 @@ if df is not None:
 # =========================
 # Objective 3 Section
 # =========================
+# ---- Objective 3 Section ----
 st.markdown("---")
 st.header("Objective 3")
 
 st.markdown("""
-**Objective 3:**  
-Examine how **environmental, operational, and cluster-based factors** contribute to autonomous vehicle incident occurrence.
-
-This involves evaluating:
-- Weather, roadway type, surface condition, lighting  
-- Pre-crash speed, severity, and incident clusters  
+This objective focuses on examining how **environmental, operational, and cluster-based factors**
+(such as weather, roadway type, surface condition, lighting, and mileage) contribute to 
+the occurrence and severity of AV accidents.
 """)
 
+# --- Interactive Objective Cards (3.1, 3.2, 3.3) ---
+col1, col2, col3 = st.columns(3)
+
+with col1:
+    with st.expander("**Objective 3.1**", expanded=True):
+        st.markdown("**Analyze how pre-crash vehicle speed varies under different weather conditions.**")
+
+with col2:
+    with st.expander("**Objective 3.2**", expanded=True):
+        st.markdown("**Examine accident severity distribution across collision types.**")
+
+with col3:
+    with st.expander("**Objective 3.3**", expanded=True):
+        st.markdown("**Evaluate how roadway type, lighting, and surface conditions interact with weather to influence accidents.**")
+        
 # =========================
 # Visualizations Section
 # =========================
+# ---- Visualizations ----
 st.markdown("---")
 st.header("Visualizations")
 
-# ------------------ 3.1 Violin Plot ------------------
+# ----------------- 3.1 Violin Plot: Speed Distribution by Weather -----------------
 st.subheader("3.1 Violin Plot: Speed Distribution by Weather")
-
 if "Weather" in df.columns and "SV Precrash Speed (MPH)" in df.columns:
-    fig1 = px.violin(
+    fig = px.violin(
         df,
         x='Weather',
         y='SV Precrash Speed (MPH)',
         color='Weather',
         box=True,
         points='all',
-        title='Speed Distribution Across Different Weather Conditions',
-        color_discrete_sequence=[
-            '#FF0000', '#FF7F00', '#FFD700', '#32CD32', '#00FFFF', '#0000FF', '#FF00FF'
-        ]
+        title='Speed Distribution Across Weather Conditions',
+        color_discrete_sequence=['#FF0000','#FF7F00','#FFFF00','#00FF00','#00FFFF','#0000FF','#FF00FF']
     )
-    fig1.update_layout(
-        xaxis_title='Weather',
-        yaxis_title='Precrash Speed (MPH)',
-        plot_bgcolor='white',
-        title_font=dict(size=20, family='Arial Black')
-    )
-    st.plotly_chart(fig1, use_container_width=True)
-else:
-    st.warning("Required columns for Violin Plot are missing.")
+    fig.update_layout(xaxis_title='Weather', yaxis_title='Pre-Crash Speed (MPH)', plot_bgcolor='white')
+    st.plotly_chart(fig, use_container_width=True)
 
-# ------------------ 3.2 Pie Chart ------------------
+    st.info("**Insight:** Most vehicles travel faster in clear weather, while speeds drop in rain or fog. "
+            "The wider violin shapes in clear weather indicate more high-speed variability. "
+            "Some outliers reveal high speeds even in adverse weather, suggesting risky driving behavior.")
+
+# ----------------- 3.2 Pie Chart: Accident Severity by Collision Type -----------------
 st.subheader("3.2 Pie Chart: Accident Severity by Collision Type")
-
 if "Crash_With" in df.columns and "Severity" in df.columns:
-    crash_severity_counts = df.groupby(['Crash_With', 'Severity']).size().reset_index(name='Count')
-    fig2 = px.pie(
-        crash_severity_counts,
+    crash_data = df.groupby(['Crash_With']).size().reset_index(name='Count')
+
+    fig = px.pie(
+        crash_data,
         names='Crash_With',
         values='Count',
-        title='Distribution of Collision Types by Severity',
-        color='Crash_With',
-        color_discrete_sequence=[
-            '#FF0000', '#FF7F00', '#FFD700', '#32CD32', '#00FFFF', '#0000FF', '#FF00FF'
-        ]
+        title='Accident Proportion by Collision Type',
+        color_discrete_sequence=['#FF0000','#FF7F00','#FFFF00','#00FF00','#00FFFF','#0000FF','#FF00FF']
     )
-    st.plotly_chart(fig2, use_container_width=True)
-else:
-    st.warning("Required columns for Pie Chart are missing.")
+    st.plotly_chart(fig, use_container_width=True)
 
-# ------------------ 3.3 Radar Chart ------------------
+    st.info("**Insight:** Rear-end and vehicle-to-vehicle collisions occur most frequently, making them the dominant crash types. "
+            "Less frequent types like pedestrian or object collisions still contribute to injury-related cases. "
+            "This suggests operational focus should prioritize high-frequency collision patterns.")
+
+# ----------------- 3.3 Radar Chart: Environmental Factors by Weather -----------------
 st.subheader("3.3 Radar Chart: Environmental Factors by Weather")
 
 required_cols = ['Weather', 'Roadway_Type', 'Roadway_Surface', 'Lighting']
 if all(col in df.columns for col in required_cols):
-
     radar_data = df.groupby(required_cols).size().reset_index(name='Incident_Count')
     top_weather = radar_data.groupby('Weather')['Incident_Count'].sum().nlargest(3).index
     radar_data = radar_data[radar_data['Weather'].isin(top_weather)]
 
     axes = ['Roadway_Type', 'Roadway_Surface', 'Lighting']
-    weather_categories = radar_data['Weather'].unique()
-    colors = ['#FF0000', '#FF7F00', '#FFFF00']
-
-    fig3 = go.Figure()
-
-    for i, weather in enumerate(weather_categories):
+    traces = []
+    for i, weather in enumerate(top_weather):
         subset = radar_data[radar_data['Weather'] == weather]
-        values = []
-        for axis in axes:
-            grouped = subset.groupby(axis)['Incident_Count'].sum()
-            val = grouped.max() if not grouped.empty else 0
-            values.append(val)
-        values.append(values[0])  # Close radar chart
+        values = [subset.groupby(axis)['Incident_Count'].sum().max() if not subset.empty else 0 for axis in axes]
+        values.append(values[0])
 
-        fig3.add_trace(go.Scatterpolar(
+        traces.append(go.Scatterpolar(
             r=values,
             theta=axes + [axes[0]],
             fill='toself',
             name=weather,
-            line=dict(color=colors[i % len(colors)], width=2)
+            opacity=0.7
         ))
 
-    fig3.update_layout(
-        title="Radar Chart: Incident Distribution by Weather & Environmental Factors",
+    fig = go.Figure(data=traces)
+    fig.update_layout(
+        title='Environmental Factors by Weather',
         polar=dict(radialaxis=dict(visible=True)),
         showlegend=True
     )
-    st.plotly_chart(fig3, use_container_width=True)
-else:
-    st.warning(f"Required columns {required_cols} are missing.")
+    st.plotly_chart(fig, use_container_width=True)
 
+    st.info("**Insight:** Clear weather shows more incidents on urban roads with dry surfaces and proper lighting. "
+            "Rainy conditions shift accidents toward wet surfaces and lower visibility areas. "
+            "This indicates weather significantly alters how road and lighting factors contribute to accidents.")
