@@ -6,6 +6,7 @@ import plotly.express as px
 st.set_page_config(page_title="AV Accident Dashboard", layout="wide")
 
 # ---- Load Dataset Section ----
+# ---- Load Dataset Section ----
 import streamlit as st
 import pandas as pd
 
@@ -18,15 +19,17 @@ DATA_URL = "https://raw.githubusercontent.com/nhusna01/EA2025/main/processed_av_
 # ---- Load the dataset ----
 try:
     df = pd.read_csv(DATA_URL)
-    st.success("Dataset loaded successfully from GitHub!"
+    st.success("Dataset loaded successfully from GitHub!")
+except Exception as e:
+    st.error(f"Failed to load dataset. Error: {e}")
+    df = None
 
-# Display dataset preview
+# ---- Display dataset preview ----
 if df is not None:
     st.markdown("Data Preview")
     st.dataframe(df.head(), use_container_width=True)
 
-
-# Optional styling for neat layout
+# ---- Optional styling for neat layout ----
 st.markdown("""
 <style>
     [data-testid="stDataFrame"] {
@@ -36,7 +39,6 @@ st.markdown("""
     }
 </style>
 """, unsafe_allow_html=True)
-
 
 # ---- Objectives Section ----
 import streamlit as st
