@@ -21,36 +21,7 @@ st.title("Visualization 1: Autonomous Vehicle Accident Analysis")
 st.markdown("---")
 st.header("📊 Dataset Summary")
 
-# ---- Custom CSS for clean, centered, and readable metrics ----
-st.markdown("""
-    <style>
-    [data-testid="stMetric"] {
-        background-color: #F8F9FA;
-        border: 1px solid #DADCE0;
-        border-radius: 10px;
-        padding: 20px;
-        text-align: center;
-        justify-content: center;
-        box-shadow: 0 1px 2px rgba(0,0,0,0.05);
-    }
-    [data-testid="stMetricLabel"] {
-        text-align: center !important;
-        font-size: 16px !important;
-        font-weight: 700 !important;
-        color: #1E293B !important;  /* dark navy for readability */
-        margin-bottom: 6px !important;
-        text-shadow: 0 0 1px rgba(255,255,255,0.3);
-    }
-    [data-testid="stMetricValue"] {
-        text-align: center !important;
-        font-size: 26px !important;
-        font-weight: 800 !important;
-        color: #000000 !important;
-        line-height: 1.2em !important;
-    }
-    </style>
-""", unsafe_allow_html=True)
-
+# ---- Dataset preview ----
 with st.container():
     st.markdown(
         """
@@ -60,43 +31,40 @@ with st.container():
         """,
         unsafe_allow_html=True
     )
-
-    # Display dataset preview
     st.dataframe(df.head(), use_container_width=True)
 
-    # ---- Metrics Summary ----
-    col1, col2, col3, col4 = st.columns(4)
+# ---- Custom Metrics ----
+total_records = len(df)
+unique_severity = df["Severity"].nunique() if "Severity" in df.columns else "N/A"
+avg_speed = f"{df['SV Precrash Speed (MPH)'].mean():.2f}" if "SV Precrash Speed (MPH)" in df.columns else "N/A"
+avg_limit = f"{df['Posted Speed Limit (MPH)'].mean():.2f}" if "Posted Speed Limit (MPH)" in df.columns else "N/A"
 
-    total_records = len(df)
-    unique_severity = df["Severity"].nunique() if "Severity" in df.columns else "N/A"
-    avg_speed = f"{df['SV Precrash Speed (MPH)'].mean():.2f}" if "SV Precrash Speed (MPH)" in df.columns else "N/A"
-    avg_limit = f"{df['Posted Speed Limit (MPH)'].mean():.2f}" if "Posted Speed Limit (MPH)" in df.columns else "N/A"
+metrics = [
+    ("Total Accident Records", total_records, "Total number of accident cases recorded in the dataset."),
+    ("Unique Severity Levels", unique_severity, "Number of distinct severity categories (e.g., Fatal, Serious, Minor)."),
+    ("Average Pre-Crash Speed (MPH)", avg_speed, "Mean pre-crash vehicle speed across all records."),
+    ("Average Posted Speed Limit (MPH)", avg_limit, "Mean posted speed limit for all accident locations.")
+]
 
-    col1.metric(
-        label="Total Accident Records",
-        value=total_records,
-        help="Total number of accident cases recorded in the dataset.",
-        border=True
-    )
-    col2.metric(
-        label="Unique Severity Levels",
-        value=unique_severity,
-        help="Number of distinct severity categories found (e.g., Fatal, Serious, Minor).",
-        border=True
-    )
-    col3.metric(
-        label="Average Pre-Crash Speed (MPH)",
-        value=avg_speed,
-        help="Mean pre-crash vehicle speed across all records.",
-        border=True
-    )
-    col4.metric(
-        label="Average Posted Speed Limit (MPH)",
-        value=avg_limit,
-        help="Mean posted speed limit for all accident locations.",
-        border=True
-    )
-
+cols = st.columns(4)
+for col, (label, value, help_text) in zip(cols, metrics):
+    col.markdown(f"""
+        <div style="
+            background-color:#F8F9FA; 
+            border:1px solid #DDD; 
+            border-radius:10px; 
+            padding:15px; 
+            text-align:center;
+            min-height:120px;
+            display:flex;
+            flex-direction:column;
+            justify-content:center;
+        ">
+            <div style="font-size:16px; font-weight:700; color:#1E293B; margin-bottom:8px; line-height:1.2em;">{label}</div>
+            <div style="font-size:26px; font-weight:800; color:#000;">{value}</div>
+            <div style="font-size:12px; color:#555; margin-top:6px;">{help_text}</div>
+        </div>
+    """, unsafe_allow_html=True)
 
 
 # ---- Objectives Section ----
