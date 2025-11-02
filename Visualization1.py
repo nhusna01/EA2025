@@ -39,7 +39,6 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # ---- Objectives Section ----
-import streamlit as st
 
 st.markdown("---")
 st.header("Objectives")
