@@ -99,25 +99,23 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-
-
 # ---- Custom Metrics with 'help' icon ----
-st.markdown("Key Metrics Overview")
-total_records = len(df) unique_severity = df["Severity"].nunique()
-if "Severity" in df.columns 
-else "N/A" avg_speed = f"{df['SV Precrash Speed (MPH)'].mean():.2f}" 
+st.markdown("### Key Metrics Overview")
 
-if "SV Precrash Speed (MPH)" in df.columns 
-else "N/A" avg_limit = f"{df['Posted Speed Limit (MPH)'].mean():.2f}" 
+# Ensure required columns exist and compute values safely
+total_records = len(df)
 
-if "Posted Speed Limit (MPH)" in df.columns 
-else "N/A"
+unique_severity = df["Severity"].nunique() if "Severity" in df.columns else "N/A"
+avg_speed = f"{df['SV Precrash Speed (MPH)'].mean():.2f}" if "SV Precrash Speed (MPH)" in df.columns else "N/A"
+avg_limit = f"{df['Posted Speed Limit (MPH)'].mean():.2f}" if "Posted Speed Limit (MPH)" in df.columns else "N/A"
 
 # --- Metric Display Setup ---
-metrics = [ ("Total Accident Records", total_records, "Total number of accident cases recorded in the dataset."), 
-           ("Unique Severity Levels", unique_severity, "Number of distinct severity categories (POD, Serious, Moderate, Minor)."), 
-           ("Average Pre-Crash Speed (MPH)", avg_speed, "Mean pre-crash vehicle speed across all records."),
-           ("Average Posted Speed Limit (MPH)", avg_limit, "Mean posted speed limit for all accident locations.") ]
+metrics = [
+    ("Total Accident Records", total_records, "Total number of accident cases recorded in the dataset."),
+    ("Unique Severity Levels", unique_severity, "Number of distinct severity categories (POD, Serious, Moderate, Minor)."),
+    ("Average Pre-Crash Speed (MPH)", avg_speed, "Mean pre-crash vehicle speed across all records."),
+    ("Average Posted Speed Limit (MPH)", avg_limit, "Mean posted speed limit for all accident locations.")
+]
 
 # --- Display Metrics in 4 Columns ---
 cols = st.columns(4)
