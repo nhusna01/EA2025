@@ -15,7 +15,7 @@ csv_url = "https://raw.githubusercontent.com/nhusna01/EA2025/main/processed_av_a
 df = load_data(csv_url)
 
 # ---- Page Title ----
-st.title("Visualization 1: Autonomous Vehicle Accident Analysis")
+st.title("Visualization 2: Autonomous Vehicle Accident Analysis")
 
 # ---- Custom Metrics Aligned with Objective 2 ----
 # Example metrics: total manufacturers, total models, top manufacturer by accidents, top operational entity
