@@ -223,7 +223,7 @@ else:
 # --- 2.3 Density Plot: Severity by Air Bag Deployment ---
 st.subheader("2.3 Severity Distribution by Air Bag Deployment Status")
 if "Air_Bag" in df.columns and "Severity" in df.columns:
-    fig3 = px.density(
+    fig3 = px.violin(
         df,
         x="Air_Bag",
         y="Severity",
