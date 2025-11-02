@@ -102,18 +102,37 @@ st.markdown(
 
 
 # ---- Custom Metrics with 'help' icon ----
-total_records = len(df)
-unique_severity = df["Severity"].nunique() if "Severity" in df.columns else "N/A"
-avg_speed = f"{df['SV Precrash Speed (MPH)'].mean():.2f}" if "SV Precrash Speed (MPH)" in df.columns else "N/A"
-avg_limit = f"{df['Posted Speed Limit (MPH)'].mean():.2f}" if "Posted Speed Limit (MPH)" in df.columns else "N/A"
+st.markdown("Key Metrics Overview")
 
+# --- Compute Key Metrics ---
+total_manufacturers = df["Make"].nunique() if "Make" in df.columns else "N/A"
+total_models = df["Model"].nunique() if "Model" in df.columns else "N/A"
+
+# Top manufacturer by number of accidents
+if "Make" in df.columns:
+    top_manufacturer = df["Make"].value_counts().idxmax()
+    top_manufacturer_count = df["Make"].value_counts().max()
+    top_manufacturer_display = f"{top_manufacturer} ({top_manufacturer_count})"
+else:
+    top_manufacturer_display = "N/A"
+
+# Top operational entity by accidents
+if "Operating Entity" in df.columns:
+    top_entity = df["Operating Entity"].value_counts().idxmax()
+    top_entity_count = df["Operating Entity"].value_counts().max()
+    top_entity_display = f"{top_entity} ({top_entity_count})"
+else:
+    top_entity_display = "N/A"
+
+# --- Metric Display Setup ---
 metrics = [
-    ("Total Accident Records", total_records, "Total number of accident cases recorded in the dataset."),
-    ("Unique Severity Levels", unique_severity, "Number of distinct severity categories (POD, Serious, Moderate, Minor)."),
-    ("Average Pre-Crash Speed (MPH)", avg_speed, "Mean pre-crash vehicle speed across all records."),
-    ("Average Posted Speed Limit (MPH)", avg_limit, "Mean posted speed limit for all accident locations.")
+    ("Total Manufacturers", total_manufacturers, "Number of unique vehicle manufacturers involved in accidents."),
+    ("Total Vehicle Models", total_models, "Count of distinct autonomous vehicle models in the dataset."),
+    ("Top Manufacturer by Accidents", top_manufacturer_display, "Manufacturer with the highest recorded accident count."),
+    ("Top Operating Entity by Accidents", top_entity_display, "Operational entity involved in the most accidents.")
 ]
 
+# --- Display Metrics in 4 Columns ---
 cols = st.columns(4)
 for col, (label, value, help_text) in zip(cols, metrics):
     col.markdown(f"""
