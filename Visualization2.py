@@ -38,25 +38,64 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# ---- Objectives Section ----
+# ---- Objective 2 Section ----
 
 st.markdown("---")
-st.header("Objectives")
+st.header("Objective 2")
 
 st.markdown("""
-This dashboard aims to **analyze Autonomous Vehicle (AV) accident data** and evaluate Safety Performance Across Manufacturers, Models, and Operational Entities.
+This dashboard aims to **evaluate the safety performance and reliability** of autonomous vehicles (AVs) across different manufacturers, models, model years, and operational entities.
 """)
-# ---- Objective Section ----
+
+# --- Interactive Objective Cards ---
+col1, col2, col3 = st.columns(3)
+
+with col1:
+    with st.expander("**Manufacturer Analysis**", expanded=True):
+        st.markdown("""
+        **Compare accident frequency and severity across different AV manufacturers.**  
+        Identify which companies show higher reliability and lower incident rates.
+        """)
+
+with col2:
+    with st.expander( **Model and Model Year Evaluation**", expanded=True):
+        st.markdown("""
+        **Examine performance variations between models and production years.**  
+        Detect safety improvements or regressions across AV generations.
+        """)
+
+with col3:
+    with st.expander(" **Airbag Deployment**", expanded=True):
+        st.markdown("""
+        **Evaluate the role of airbag deployment during a collision whenever a traffic accident occurs.**  
+        Understand how airbag deployment manages to influence severity levels.
+        """)
+
+# --- Optional Styling for Expanders ---
+st.markdown("""
+<style>
+    .stExpander {
+        background-color: #f8f9fa;
+        border-radius: 15px;
+        padding: 10px;
+        box-shadow: 0px 2px 8px rgba(0,0,0,0.1);
+    }
+    .stExpander:hover {
+        background-color: #f0f2f6;
+    }
+</style>
+""", unsafe_allow_html=True)
+
+# ---- Page Title for Visualization 2 ----
 st.markdown("---")
-st.header("Objective 2: Evaluate Safety Performance Across Manufacturers, Models, and Operational Entities")
-
-st.markdown("""
-This dashboard aims to **evaluate the safety performance and reliability** of autonomous vehicles (AVs) across different manufacturers, models, model years, and operating entities.
-
-**Rationale:**
-By analyzing accident patterns across various makes, models, and operational entities, this objective seeks to assess performance disparities and reliability variations. Incorporating **cluster analysis** helps identify recurring trends or geographic concentrations of incidents, enabling **evidence-based decision-making** and supporting **regulatory improvements** within the AV ecosystem.
-""")
-
+st.markdown(
+    """
+    <h3 style='font-size:26px; color:#2E86C1; font-weight:600;'>
+        Visualization 2: Evaluate Safety Performance Across Manufacturers, Models, and Operational Entities
+    </h3>
+    """,
+    unsafe_allow_html=True
+)
 
 # ---- Custom Metrics Aligned with Objective 2 ----
 st.markdown("### Key Metrics Overview")
