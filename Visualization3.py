@@ -9,10 +9,10 @@ st.title("Visualization 3: Examine Environmental, Operational, and Cluster-Based
 
 # ---- Objective & Rationale ----
 st.markdown("""
-### 🎯 Objective 3
+### Objective 3
 **Examine Environmental, Operational, and Cluster-Based Factors Contributing to Incident Occurrence**
 
-### 🧩 Rationale
+### Rationale
 This objective focuses on investigating how **roadway type, surface condition, weather, lighting, mileage,** and **temporal clusters** relate to accident frequency and distribution.  
 The integration of cluster data enables the detection of **spatial or situational trends**, supporting **infrastructure planning, operational policy adjustments,** and **adaptive vehicle design enhancements**.
 """)
