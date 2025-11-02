@@ -126,7 +126,7 @@ else:
 metrics = [
     ("Total Manufacturers", total_manufacturers, "Number of unique vehicle manufacturers involved in accidents."),
     ("Total Vehicle Models", total_models, "Count of distinct autonomous vehicle models in the dataset."),
-    ("Top Manufacturer by Accidents", top_manufacturer_display, "Manufacturer with the highest recorded accident count."),
+    ("Top Manufacturer by Accidents", total_top_manufacturer, "Manufacturer with the highest recorded accident count: JAGUAR."),
     ("Top Operating Entity by Accidents", top_entity_display, "Operational entity involved in the most accidents.")
 ]
 
