@@ -17,7 +17,7 @@ df = load_data(csv_url)
 # ---- Page Title ----
 st.title("Visualization 1: Autonomous Vehicle Accident Analysis")
 
-# ---- Custom Metrics with 'help' icon ----
+# ---- Metrics  ----
 total_records = len(df)
 unique_severity = df["Severity"].nunique() if "Severity" in df.columns else "N/A"
 avg_speed = f"{df['SV Precrash Speed (MPH)'].mean():.2f}" if "SV Precrash Speed (MPH)" in df.columns else "N/A"
@@ -40,16 +40,28 @@ for col, (label, value, help_text) in zip(cols, metrics):
             padding:15px; 
             text-align:center;
             min-height:120px;
+            position:relative;
             display:flex;
             flex-direction:column;
             justify-content:center;
         ">
+            <!-- Help icon in top-right corner -->
+            <span title="{help_text}" style="
+                position:absolute;
+                top:8px;
+                right:8px;
+                cursor:help;
+                color:#2563EB;
+                font-size:18px;
+            ">❓</span>
+            
             <div style="font-size:16px; font-weight:700; color:#1E293B; margin-bottom:8px; line-height:1.2em;">
-                {label} <span title="{help_text}" style="cursor:help; color:#2563EB;">ℹ️</span>
+                {label}
             </div>
             <div style="font-size:26px; font-weight:800; color:#000;">{value}</div>
         </div>
     """, unsafe_allow_html=True)
+
 
 
 # ---- Objectives Section ----
