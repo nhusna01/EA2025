@@ -56,21 +56,23 @@ with col3:
         st.markdown("**Evaluate how roadway type, lighting, and surface conditions interact with weather to influence accidents.**")
 
 # =========================
-# ✅ Updated Key Metrics Section
+#  Updated Key Metrics Section
 # =========================
 st.markdown("---")
 st.header("Key Metrics Overview")
 
-total_fatal = df[df["Severity"] == "Fatal"].shape[0] if "Severity" in df.columns else "N/A"
+total_serious = df[df["Severity"] == "Serious"].shape[0] if "Severity" in df.columns else "N/A"
 most_common_weather = df["Weather"].mode()[0] if "Weather" in df.columns else "N/A"
 common_severity = df["Severity"].value_counts().idxmax() if "Severity" in df.columns else "N/A"
-airbag_percent = f"{(df['Airbag_Deployed'].value_counts(normalize=True).get('Yes', 0) * 100):.2f}%" if "Airbag_Deployed" in df.columns else "N/A"
+constant_collision = df["Crash_With"].value_counts().idxmax() if "Crash_With" in df.columns else "N/A"
+
 
 metrics = [
-    ("Total Fatal Accidents", total_fatal, "Total number of accidents resulting in fatalities."),
+    ("Total Serious Accidents", total_fatal, "Total number of accidents resulting in serious fatalities."),
     ("Most Common Weather", most_common_weather, "Weather condition where most accidents occurred."),
     ("Most Frequent Severity", common_severity, "Severity level with highest number of cases."),
-    ("Airbag Deployment Rate", airbag_percent, "Percentage of accidents where airbags were deployed."),
+    ("Most Constant Collision", common_collision, "Collision with highest number of occurrences."),
+
 ]
 
 # === Display in the same layout (5 cards with hover tooltip) ===
