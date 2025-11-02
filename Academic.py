@@ -353,5 +353,6 @@ else:
     st.warning(f"Required columns {required_cols} not found in the dataset.")
     
     
-    # --- Back to Menu ---
-    st.button("⬅ Back to Menu", on_click=lambda: go_to("Menu"))
+       # --- Back to Menu Button ---
+    if st.button("⬅ Back to Menu"):
+        go_to("Menu")
