@@ -293,9 +293,9 @@ elif st.session_state.page == "Visualization 3":
     # ----------------- 3.3 Radar Chart: Accident Severity by Collision Type -----------------
     st.subheader("3.3 Radar Chart: Environmental Factors by Weather")
 
-# ---- Check required columns exist ----
-required_cols = ['Weather', 'Roadway_Type', 'Roadway_Surface', 'Lighting']
-if all(col in df.columns for col in required_cols):
+    # ---- Check required columns exist ----
+    required_cols = ['Weather', 'Roadway_Type', 'Roadway_Surface', 'Lighting']
+    if all(col in df.columns for col in required_cols):
 
     # Aggregate data
     radar_data = df.groupby(required_cols).size().reset_index(name='Incident_Count')
@@ -349,7 +349,7 @@ if all(col in df.columns for col in required_cols):
         "**Interpretation:** This radar chart compares how road type, surface, and lighting influence accident occurrences under different weather conditions. Larger areas indicate higher incident counts."
     )
 
-else:
+    else:
     st.warning(f"Required columns {required_cols} not found in the dataset.")
     
     
