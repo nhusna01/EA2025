@@ -161,7 +161,7 @@ if "Severity" in df.columns and "SV Precrash Speed (MPH)" in df.columns:
         plot_bgcolor='white'
     )
     st.plotly_chart(fig1, use_container_width=True)
-    st.info(" **Insight:** Higher pre-crash speeds are associated with greater accident severity.")
+    st.info(" **Insight:** Higher pre-crash speeds are associated with greater accident severity. Outliers detected the highest among POD severity as SV Precrash Speed (MPH) increased compared to minor and moderate")
 else:
     st.warning("Columns 'Severity' or 'SV Precrash Speed (MPH)' not found in dataset.")
 
@@ -190,7 +190,7 @@ if "Severity" in df.columns and "Lighting" in df.columns:
         yaxis=dict(showgrid=True, gridcolor='lightgray')
     )
     st.plotly_chart(fig2, use_container_width=True)
-    st.info("**Insight:** Lighting conditions influence accident severity — poor visibility often leads to more severe outcomes.")
+    st.info("**Insight:** Lighting conditions influence accident severity, while poor visibility often leads to more severe outcomes. Among those lighting shows, accident occurrences cause POD severity at the highest compared to serious injuries.")
 else:
     st.warning("Columns 'Severity' or 'Lighting' not found in dataset.")
 
@@ -214,6 +214,6 @@ if all(col in df.columns for col in required_cols):
         plot_bgcolor='white'
     )
     st.plotly_chart(fig3, use_container_width=True)
-    st.info(" **Insight:** Stronger warm colors indicate stronger positive correlations between the numeric variables.")
+    st.info(" **Insight:** Stronger warm colors indicate stronger positive correlations between the numeric variables. Posted Speed Limit shows strong positive relationships with SV Precrash Speed, meanwhile mileage contribute weak correlation towards both speed variables.")
 else:
     st.warning("Required numeric columns not found for correlation analysis.")
