@@ -25,7 +25,7 @@ avg_limit = f"{df['Posted Speed Limit (MPH)'].mean():.2f}" if "Posted Speed Limi
 
 metrics = [
     ("Total Accident Records", total_records, "Total number of accident cases recorded in the dataset."),
-    ("Unique Severity Levels", unique_severity, "Number of distinct severity categories (e.g., Fatal, Serious, Minor)."),
+    ("Unique Severity Levels", unique_severity, "Number of distinct severity categories (POD, Serious, Moderate, Minor)."),
     ("Average Pre-Crash Speed (MPH)", avg_speed, "Mean pre-crash vehicle speed across all records."),
     ("Average Posted Speed Limit (MPH)", avg_limit, "Mean posted speed limit for all accident locations.")
 ]
