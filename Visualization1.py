@@ -6,7 +6,6 @@ import plotly.express as px
 st.set_page_config(page_title="AV Accident Dashboard", layout="wide")
 
 st.title("AV Accident Dashboard")
-st.markdown("---")
 
 # ---- Load Dataset Section ----
 st.markdown("---")
@@ -91,6 +90,15 @@ st.markdown("""
 
 # ---- Page Title ----
 st.title("Visualization 1: Autonomous Vehicle Accident Analysis")
+st.markdown(
+    """
+    <h3 style='font-size:24px; color:#2E86C1; font-weight:600;'>
+        Visualization 1: Autonomous Vehicle Accident Analysis
+    </h3>
+    """,
+    unsafe_allow_html=True
+)
+
 
 # ---- Custom Metrics with 'help' icon ----
 total_records = len(df)
