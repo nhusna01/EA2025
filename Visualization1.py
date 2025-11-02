@@ -89,6 +89,8 @@ st.markdown("""
 
 
 # ---- Page Title ----
+st.markdown("---")
+st.header(
 
     """
     <h3 style='font-size:26px; color:#2E86C1; font-weight:600;'>
