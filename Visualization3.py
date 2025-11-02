@@ -127,6 +127,7 @@ if all(col in df.columns for col in required_cols):
     fig = go.Figure(data=traces)
     fig.update_layout(
         title='Environmental Factors by Weather',
+        color_discrete_sequence=['#FF0000','#FF7F00','#FFFF00','#00FF00','#00FFFF','#0000FF','#FF00FF'],
         polar=dict(radialaxis=dict(visible=True)),
         showlegend=True
     )
