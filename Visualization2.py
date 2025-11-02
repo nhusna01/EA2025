@@ -110,7 +110,7 @@ total_models = df["Model"].nunique() if "Model" in df.columns else "N/A"
 if "Make" in df.columns:
     top_manufacturer = df["Make"].value_counts().idxmax()
     top_manufacturer_count = df["Make"].value_counts().max()
-    top_manufacturer_display = f"({top_manufacturer_count})"
+    top_manufacturer_display = f"{top_manufacturer_count}"
 else:
     top_manufacturer_display = "N/A"
 
@@ -118,7 +118,7 @@ else:
 if "Operating Entity" in df.columns:
     top_entity = df["Operating Entity"].value_counts().idxmax()
     top_entity_count = df["Operating Entity"].value_counts().max()
-    top_entity_display = f"{top_entity}({top_entity_count})"
+    top_entity_display = f"{top_entity_count}"
 else:
     top_entity_display = "N/A"
 
@@ -127,7 +127,7 @@ metrics = [
     ("Total Manufacturers", total_manufacturers, "Number of unique vehicle manufacturers involved in accidents."),
     ("Total Vehicle Models", total_models, "Count of distinct autonomous vehicle models in the dataset."),
     ("Top Manufacturer by Accidents", top_manufacturer_display, "Manufacturer with the highest recorded accident count: Jaguar."),
-    ("Top Operating Entity by Accidents", top_entity_display, "Operational entity involved in the most accidents.")
+    ("Top Operating Entity by Accidents", top_entity_display, "Operational entity involved in the most accidents: Waymo LLC.")
 ]
 
 # --- Display Metrics in 4 Columns ---
