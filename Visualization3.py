@@ -3,6 +3,18 @@ import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 
+# ---- Streamlit Page Setup ----
+st.set_page_config(page_title="AV Accident Dashboard", layout="wide")
+
+# ---- Load Dataset ----
+@st.cache_data
+def load_data(url):
+    return pd.read_csv(url)
+
+# Load data directly from GitHub
+csv_url = "https://raw.githubusercontent.com/nhusna01/EA2025/main/processed_av_accident_data.csv"
+df = load_data(csv_url)
+
 # ---- Page Setup ----
 st.markdown("---")
 st.title("Visualization 3: Examine Environmental, Operational, and Cluster-Based Factors Contributing to Incident Occurrence")
