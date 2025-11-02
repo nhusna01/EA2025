@@ -51,21 +51,21 @@ This dashboard aims to **analyze Autonomous Vehicle (AV) accident data** and unc
 col1, col2, col3 = st.columns(3)
 
 with col1:
-    with st.expander("**Objective 1**", expanded=True):
+    with st.expander("**Objective 1.1**", expanded=True):
         st.markdown("""
         **Analyze the relationship between pre-crash speed and accident severity.**  
         Explore how varying speeds contribute to the severity levels of autonomous vehicle crashes.
         """)
 
 with col2:
-    with st.expander("**Objective 2**", expanded=True):
+    with st.expander("**Objective 1.2**", expanded=True):
         st.markdown("""
         **Examine the influence of lighting conditions on accident outcomes.**  
         Understand how visibility factors, such as day, night, or dusk, affect crash frequency.
         """)
 
 with col3:
-    with st.expander("**Objective 3**", expanded=True):
+    with st.expander("**Objective 1.3**", expanded=True):
         st.markdown("""
         **Identify correlations between vehicle speed, mileage, and posted speed limits.**  
         Detect operational patterns that may reveal safety or performance risks.
